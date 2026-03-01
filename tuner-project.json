@@ -7,16 +7,16 @@
       "ModuleId": 0,
       "Encoder": {
         "Id": 8,
-        "Name": "LeftFrontCANCncoder",
-        "Model": "CANCoder vers. H",
+        "Name": "leftFrontCanCoder",
+        "Model": "CANCoder",
         "CANbus": "rio",
         "CANbusFriendly": "",
         "SelectedMotorType": null
       },
       "SteerMotor": {
-        "Id": 1,
-        "Name": "LeftFrontServo",
-        "Model": "Talon FX",
+        "Id": 0,
+        "Name": "leftFrontServo",
+        "Model": "Talon FX vers. C",
         "CANbus": "rio",
         "CANbusFriendly": "",
         "SelectedMotorType": {
@@ -27,9 +27,9 @@
         }
       },
       "DriveMotor": {
-        "Id": 4,
-        "Name": "LeftFrontMotor",
-        "Model": "Talon FX",
+        "Id": 1,
+        "Name": "leftFrontMotor",
+        "Model": "Talon FX vers. C",
         "CANbus": "rio",
         "CANbusFriendly": "",
         "SelectedMotorType": {
@@ -40,15 +40,15 @@
         }
       },
       "IsEncoderInverted": false,
-      "IsSteerInverted": true,
+      "IsSteerInverted": false,
       "SelectedEncoderType": "CANcoder",
-      "EncoderOffset": -0.052978515625,
+      "EncoderOffset": -0.3876953125,
       "DriveMotorSelectionState": 1,
       "SteerMotorSelectionState": 1,
       "SteerEncoderSelectionState": 1,
       "IsModuleValidationComplete": true,
-      "ValidatedSteerId": 1,
-      "ValidatedDriveId": 4,
+      "ValidatedSteerId": 0,
+      "ValidatedDriveId": 1,
       "ValidatedEncoderId": 8
     },
     {
@@ -56,16 +56,16 @@
       "ModuleId": 1,
       "Encoder": {
         "Id": 9,
-        "Name": "RightFrontCANCoder",
+        "Name": "rightFrontCanCoder",
         "Model": "CANCoder",
         "CANbus": "rio",
         "CANbusFriendly": "",
         "SelectedMotorType": null
       },
       "SteerMotor": {
-        "Id": 3,
-        "Name": "RightFrontServo",
-        "Model": "Talon FX",
+        "Id": 2,
+        "Name": "rightFrontServo",
+        "Model": "Talon FX vers. C",
         "CANbus": "rio",
         "CANbusFriendly": "",
         "SelectedMotorType": {
@@ -76,9 +76,9 @@
         }
       },
       "DriveMotor": {
-        "Id": 2,
-        "Name": "RightFrontMotor",
-        "Model": "Talon FX",
+        "Id": 3,
+        "Name": "rightFrontMotor",
+        "Model": "Talon FX vers. C",
         "CANbus": "rio",
         "CANbusFriendly": "",
         "SelectedMotorType": {
@@ -89,32 +89,32 @@
         }
       },
       "IsEncoderInverted": false,
-      "IsSteerInverted": true,
+      "IsSteerInverted": false,
       "SelectedEncoderType": "CANcoder",
-      "EncoderOffset": -0.190673828125,
+      "EncoderOffset": 0.012939453125,
       "DriveMotorSelectionState": 1,
       "SteerMotorSelectionState": 1,
       "SteerEncoderSelectionState": 1,
       "IsModuleValidationComplete": true,
-      "ValidatedSteerId": 3,
-      "ValidatedDriveId": 2,
+      "ValidatedSteerId": 2,
+      "ValidatedDriveId": 3,
       "ValidatedEncoderId": 9
     },
     {
       "ModuleName": "Back Left",
       "ModuleId": 2,
       "Encoder": {
-        "Id": 10,
-        "Name": "LeftBackCANCoder",
+        "Id": 11,
+        "Name": "leftBackCanCoder",
         "Model": "CANCoder",
         "CANbus": "rio",
         "CANbusFriendly": "",
         "SelectedMotorType": null
       },
       "SteerMotor": {
-        "Id": 5,
-        "Name": "LeftBackServo",
-        "Model": "Talon FX",
+        "Id": 6,
+        "Name": "leftBackServo",
+        "Model": "Talon FX vers. C",
         "CANbus": "rio",
         "CANbusFriendly": "",
         "SelectedMotorType": {
@@ -125,9 +125,9 @@
         }
       },
       "DriveMotor": {
-        "Id": 0,
-        "Name": "LeftBackMotor",
-        "Model": "Talon FX",
+        "Id": 7,
+        "Name": "leftBackMotor",
+        "Model": "Talon FX vers. C",
         "CANbus": "rio",
         "CANbusFriendly": "",
         "SelectedMotorType": {
@@ -138,32 +138,32 @@
         }
       },
       "IsEncoderInverted": false,
-      "IsSteerInverted": true,
+      "IsSteerInverted": false,
       "SelectedEncoderType": "CANcoder",
-      "EncoderOffset": -0.289794921875,
+      "EncoderOffset": 0.129638671875,
       "DriveMotorSelectionState": 1,
       "SteerMotorSelectionState": 1,
       "SteerEncoderSelectionState": 1,
       "IsModuleValidationComplete": true,
-      "ValidatedSteerId": 5,
-      "ValidatedDriveId": 0,
-      "ValidatedEncoderId": 10
+      "ValidatedSteerId": 6,
+      "ValidatedDriveId": 7,
+      "ValidatedEncoderId": 11
     },
     {
       "ModuleName": "Back Right",
       "ModuleId": 3,
       "Encoder": {
-        "Id": 11,
-        "Name": "RightBackCANCoder",
+        "Id": 10,
+        "Name": "rightBackCanCoder",
         "Model": "CANCoder",
         "CANbus": "rio",
         "CANbusFriendly": "",
         "SelectedMotorType": null
       },
       "SteerMotor": {
-        "Id": 7,
-        "Name": "RightBackServo",
-        "Model": "Talon FX",
+        "Id": 4,
+        "Name": "rightBackServo",
+        "Model": "Talon FX vers. C",
         "CANbus": "rio",
         "CANbusFriendly": "",
         "SelectedMotorType": {
@@ -174,9 +174,9 @@
         }
       },
       "DriveMotor": {
-        "Id": 6,
-        "Name": "RightBackMotor",
-        "Model": "Talon FX",
+        "Id": 5,
+        "Name": "rightBackMotor",
+        "Model": "Talon FX vers. C",
         "CANbus": "rio",
         "CANbusFriendly": "",
         "SelectedMotorType": {
@@ -187,22 +187,22 @@
         }
       },
       "IsEncoderInverted": false,
-      "IsSteerInverted": true,
+      "IsSteerInverted": false,
       "SelectedEncoderType": "CANcoder",
-      "EncoderOffset": -0.021484375,
+      "EncoderOffset": -0.286865234375,
       "DriveMotorSelectionState": 1,
       "SteerMotorSelectionState": 1,
       "SteerEncoderSelectionState": 1,
       "IsModuleValidationComplete": true,
-      "ValidatedSteerId": 7,
-      "ValidatedDriveId": 6,
-      "ValidatedEncoderId": 11
+      "ValidatedSteerId": 4,
+      "ValidatedDriveId": 5,
+      "ValidatedEncoderId": 10
     }
   ],
   "SwerveOptions": {
     "Gyro": {
       "Id": 12,
-      "Name": "Pigeon",
+      "Name": "Pigeon 2 vers. S (Device ID 12)",
       "Model": "Pigeon 2 vers. S",
       "CANbus": "rio",
       "CANbusFriendly": "",
@@ -214,13 +214,13 @@
     "WheelRadiusInches": 2.0,
     "IsLeftSideInverted": false,
     "IsRightSideInverted": true,
-    "SwerveModuleType": 4,
+    "SwerveModuleType": 8,
     "SwerveModuleConfiguration": {
-      "ModuleBrand": 4,
-      "DriveRatio": 5.902777777777778,
-      "SteerRatio": 21.428571428571427,
-      "CouplingRatio": 3.125,
-      "CustomName": "L2 16T"
+      "ModuleBrand": 8,
+      "DriveRatio": 6.026785714285714,
+      "SteerRatio": 26.0,
+      "CouplingRatio": 3.857142857142857,
+      "CustomName": "R2"
     },
     "HasVerifiedSteer": true,
     "SelectedModuleManufacturer": "Swerve Drive Specialties (SDS)",
