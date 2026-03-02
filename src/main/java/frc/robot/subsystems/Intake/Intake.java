@@ -5,6 +5,7 @@ import com.ctre.phoenix6.configs.TalonFXConfiguration;
 import com.ctre.phoenix6.controls.MotionMagicVoltage;
 import com.ctre.phoenix6.hardware.TalonFX;
 
+import edu.wpi.first.wpilibj2.command.Command;
 import edu.wpi.first.wpilibj2.command.SubsystemBase;
 
 public class Intake extends SubsystemBase {
@@ -47,13 +48,22 @@ public class Intake extends SubsystemBase {
         intakeArmState = IntakeArmState.BACK;
     }
 
-    public void setIntakeMotorState(IntakeMotorState intakeMotorState) {
-        this.intakeMotorState = intakeMotorState;
+    // public void setIntakeMotorState(IntakeMotorState intakeMotorState) {
+    //     this.intakeMotorState = intakeMotorState;
+    // }
+
+    // public IntakeMotorState getIntakeMotorState() {
+    //     return intakeMotorState;
+    // }
+
+    public Command setIntakeMotorState(IntakeMotorState intakeMotorState) {
+        return startEnd(() -> this.intakeMotorState = intakeMotorState, () -> {});
     }
 
-    public IntakeMotorState getIntakeMotorState() {
-        return intakeMotorState;
+    public Command setIntakeArmState(IntakeArmState intakeArmState) {
+        return startEnd(() -> this.intakeArmState = intakeArmState, () -> {});
     }
+
 
     @Override
     public void periodic() {
