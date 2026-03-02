@@ -2,7 +2,7 @@ package frc.robot.commands.intake;
 
 import edu.wpi.first.wpilibj2.command.Command;
 import frc.robot.subsystems.intake.Intake;
-import frc.robot.subsystems.intake.Intake.IntakeState;
+import frc.robot.subsystems.intake.Intake.IntakeMotorState;
 
 public class IntakeCommand extends Command {
     private final Intake intake;
@@ -13,11 +13,11 @@ public class IntakeCommand extends Command {
 
     @Override
     public void execute() {
-        intake.setIntakeState(IntakeState.FORWARD);
+        intake.setIntakeMotorState(IntakeMotorState.FORWARD);
     }
 
     @Override
     public void end(boolean isInterrupted) {
-        intake.setIntakeState(IntakeState.STOP);
+        intake.setIntakeMotorState(IntakeMotorState.STOP);
     }
 }
