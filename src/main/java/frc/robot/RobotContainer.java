@@ -17,12 +17,15 @@ import edu.wpi.first.wpilibj2.command.button.RobotModeTriggers;
 import edu.wpi.first.wpilibj2.command.sysid.SysIdRoutine.Direction;
 import frc.robot.subsystems.drive.CommandSwerveDrivetrain;
 import frc.robot.subsystems.drive.TunerConstants;
+import frc.robot.commands.climber.ClimberCommand;
+import frc.robot.subsystems.climber.Climber;
 import frc.robot.subsystems.intake.Intake;
 import frc.robot.subsystems.intake.Intake.IntakeArmState;
 import frc.robot.subsystems.intake.Intake.IntakeMotorState;
 
 public class RobotContainer {
     private final Intake intake;
+    private final Climber climber;
     
     private double MaxSpeed = 1.0 * TunerConstants.kSpeedAt12Volts.in(MetersPerSecond); // kSpeedAt12Volts desired top speed
     private double MaxAngularRate = RotationsPerSecond.of(0.75).in(RadiansPerSecond); // 3/4 of a rotation per second max angular velocity
@@ -42,6 +45,7 @@ public class RobotContainer {
 
     public RobotContainer() {
         intake = new Intake();
+        climber = new Climber();
         configureBindings();
     }
 
@@ -83,6 +87,8 @@ public class RobotContainer {
 
         joystick.leftTrigger().whileTrue(intake.setIntakeMotorState(IntakeMotorState.FORWARD));
         joystick.start().onTrue(intake.setIntakeArmState(IntakeArmState.BACK));
+
+        joystick.y().onTrue(new ClimberCommand(climber));
     }
 
     public Command getAutonomousCommand() {
