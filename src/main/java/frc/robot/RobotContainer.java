@@ -17,10 +17,10 @@ import edu.wpi.first.wpilibj2.command.button.RobotModeTriggers;
 import edu.wpi.first.wpilibj2.command.sysid.SysIdRoutine.Direction;
 import frc.robot.subsystems.drive.CommandSwerveDrivetrain;
 import frc.robot.subsystems.drive.TunerConstants;
+import frc.robot.subsystems.intake1.Intake;
+import frc.robot.subsystems.intake1.Intake.IntakeArmState;
+import frc.robot.subsystems.intake1.Intake.IntakeMotorState;
 import frc.robot.subsystems.climber.Climber;
-import frc.robot.subsystems.intake.Intake;
-import frc.robot.subsystems.intake.Intake.IntakeArmState;
-import frc.robot.subsystems.intake.Intake.IntakeMotorState;
 
 public class RobotContainer {
     private final Intake intake;
