@@ -17,7 +17,6 @@ import edu.wpi.first.wpilibj2.command.button.RobotModeTriggers;
 import edu.wpi.first.wpilibj2.command.sysid.SysIdRoutine.Direction;
 import frc.robot.subsystems.drive.CommandSwerveDrivetrain;
 import frc.robot.subsystems.drive.TunerConstants;
-import frc.robot.commands.climber.ClimberCommand;
 import frc.robot.subsystems.climber.Climber;
 import frc.robot.subsystems.intake.Intake;
 import frc.robot.subsystems.intake.Intake.IntakeArmState;
@@ -88,7 +87,7 @@ public class RobotContainer {
         joystick.leftTrigger().whileTrue(intake.setIntakeMotorState(IntakeMotorState.FORWARD));
         joystick.start().onTrue(intake.setIntakeArmState(IntakeArmState.BACK));
 
-        joystick.y().onTrue(new ClimberCommand(climber));
+        joystick.y().onTrue(climber.toggleCommand());
     }
 
     public Command getAutonomousCommand() {
