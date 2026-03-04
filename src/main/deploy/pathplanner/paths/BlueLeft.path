@@ -218,47 +218,7 @@
       "rotationDegrees": -90.0
     }
   ],
-  "constraintZones": [
-    {
-      "name": "IntakeZone1",
-      "minWaypointRelativePos": 0.7431789340101523,
-      "maxWaypointRelativePos": 1.5240323604060915,
-      "constraints": {
-        "maxVelocity": 3.0,
-        "maxAcceleration": 3.0,
-        "maxAngularVelocity": 540.0,
-        "maxAngularAcceleration": 720.0,
-        "nominalVoltage": 12.0,
-        "unlimited": false
-      }
-    },
-    {
-      "name": "IntakeZone2",
-      "minWaypointRelativePos": 4.149746192893401,
-      "maxWaypointRelativePos": 5.611813927664978,
-      "constraints": {
-        "maxVelocity": 3.0,
-        "maxAcceleration": 3.0,
-        "maxAngularVelocity": 540.0,
-        "maxAngularAcceleration": 720.0,
-        "nominalVoltage": 12.0,
-        "unlimited": false
-      }
-    },
-    {
-      "name": "IntakeZone3",
-      "minWaypointRelativePos": 8.461591846446701,
-      "maxWaypointRelativePos": 9.318587404822335,
-      "constraints": {
-        "maxVelocity": 3.0,
-        "maxAcceleration": 3.0,
-        "maxAngularVelocity": 540.0,
-        "maxAngularAcceleration": 720.0,
-        "nominalVoltage": 12.0,
-        "unlimited": false
-      }
-    }
-  ],
+  "constraintZones": [],
   "pointTowardsZones": [],
   "eventMarkers": [
     {
