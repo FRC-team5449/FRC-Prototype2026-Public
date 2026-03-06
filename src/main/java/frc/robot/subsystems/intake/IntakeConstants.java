@@ -10,7 +10,8 @@ import com.ctre.phoenix6.signals.NeutralModeValue;
 public class IntakeConstants {
     public static CANBus intakeCanBus = new CANBus("rio");
     public static int intakeMotorCanId = 15;
-    public static int intakeArmCanId = 16;
+    public static int leftIntakeArmCanId = 16;
+    public static int rightIntakeArmCanId = 17;
 
     public static TalonFXConfiguration config = new TalonFXConfiguration();
 
