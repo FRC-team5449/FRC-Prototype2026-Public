@@ -21,13 +21,15 @@ import frc.robot.subsystems.drive.TunerConstants;
 import frc.robot.subsystems.index.Index;
 import frc.robot.subsystems.index.Index.IndexState;
 import frc.robot.subsystems.intake.Intake;
-import frc.robot.subsystems.intake.Intake.Goal;
+import frc.robot.subsystems.shooter.Shooter;
+import frc.robot.subsystems.shooter.Shooter.Goal;
 import frc.robot.subsystems.climber.Climber;
 
 public class RobotContainer {
     private final Intake intake;
     private final Climber climber;
     private final Index index;
+    private final Shooter shooter;
     
     private double MaxSpeed = 1.0 * TunerConstants.kSpeedAt12Volts.in(MetersPerSecond); // kSpeedAt12Volts desired top speed
     private double MaxAngularRate = RotationsPerSecond.of(0.75).in(RadiansPerSecond); // 3/4 of a rotation per second max angular velocity
@@ -49,6 +51,7 @@ public class RobotContainer {
         intake = new Intake();
         climber = new Climber();
         index = new Index();
+        shooter = new Shooter();
         configureBindings();
     }
 
@@ -84,20 +87,29 @@ public class RobotContainer {
         // joystick.start().and(joystick.x()).whileTrue(drivetrain.sysIdQuasistatic(Direction.kReverse));
 
         // Reset the field-centric heading on left bumper press.
-        joystick.leftBumper().onTrue(drivetrain.runOnce(drivetrain::seedFieldCentric));
+        joystick.start().onTrue(drivetrain.runOnce(drivetrain::seedFieldCentric));
 
         drivetrain.registerTelemetry(logger::telemeterize);
 
-        joystick.leftTrigger()
-            .whileTrue(Commands.run(() -> intake.setGoal(Goal.INTAKE), intake))
-            .onFalse(Commands.runOnce(() -> intake.setGoal(Goal.DEPLOY), intake));
-        joystick.pov(180).onTrue(Commands.run(() -> intake.setGoal(Goal.RETRACT), intake));
-        joystick.pov(0).onTrue(Commands.run(() -> intake.setGoal(Goal.DEPLOY), intake));
+        joystick.leftTrigger().onTrue(Commands.run(() -> intake.setGoal(Intake.Goal.INTAKE), intake));
+        joystick.leftTrigger().onFalse(Commands.run(() -> intake.setGoal(Intake.Goal.DEPLOY), intake));
+        joystick.rightTrigger().onTrue(Commands.run(() -> intake.setGoal(Intake.Goal.RETRACT), intake));
 
-        joystick.a().onTrue(Commands.run(() -> index.setIndexState(IndexState.ACTIVE), index));
-        joystick.x().onTrue(Commands.run(() -> index.setIndexState(IndexState.STOP), index));
+        joystick.leftBumper().onTrue(Commands.run(() -> index.setIndexState(IndexState.ACTIVE), index));
+        joystick.leftBumper().onFalse(Commands.run(() -> index.setIndexState(IndexState.STOP), index));
+
+        joystick.rightBumper().onTrue(
+            Commands.parallel(
+                // Commands.run(() -> shooter.setTarget(-60.0), shooter),
+                // Commands.run(() -> shooter.setGoal(Shooter.Goal.HUB))
+                Commands.run(() -> shooter.setGoal(Shooter.Goal.OPENLOOP))
+            ));
+        joystick.rightBumper().onFalse(
+            Commands.parallel(
+                Commands.run(() -> shooter.setTarget(0), shooter),
+                Commands.run(() -> shooter.setGoal(Shooter.Goal.STOP))
+            ));
         
-
         // joystick.y().onTrue(climber.toggleCommand());
     }
 
