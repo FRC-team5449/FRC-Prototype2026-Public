@@ -10,7 +10,7 @@ public class Index extends SubsystemBase {
     private final SparkMax rightIndexMotor;
 
     public enum IndexState {
-        ACTIVE(-0.8),
+        ACTIVE(-0.65),
         STOP(0.0);
 
         public double power;
