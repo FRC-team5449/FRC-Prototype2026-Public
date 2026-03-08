@@ -98,17 +98,15 @@ public class RobotContainer {
         joystick.leftBumper().onTrue(Commands.run(() -> index.setIndexState(IndexState.ACTIVE), index));
         joystick.leftBumper().onFalse(Commands.run(() -> index.setIndexState(IndexState.STOP), index));
 
-        joystick.rightBumper().onTrue(
-            Commands.parallel(
-                // Commands.run(() -> shooter.setTarget(-60.0), shooter),
-                // Commands.run(() -> shooter.setGoal(Shooter.Goal.HUB))
-                Commands.run(() -> shooter.setGoal(Shooter.Goal.OPENLOOP))
-            ));
-        joystick.rightBumper().onFalse(
-            Commands.parallel(
-                Commands.run(() -> shooter.setTarget(0), shooter),
-                Commands.run(() -> shooter.setGoal(Shooter.Goal.STOP))
-            ));
+        joystick.rightBumper().onTrue(Commands.run(() -> {
+            shooter.setTarget(-60.0);
+            //shooter.setGoal(Shooter.Goal.HUB)
+            shooter.setGoal(Shooter.Goal.OPENLOOP);
+        }, shooter));
+        joystick.rightBumper().onFalse(Commands.run(() -> {
+            shooter.setTarget(0);
+            shooter.setGoal(Shooter.Goal.STOP);
+        }, shooter));
         
         // joystick.y().onTrue(climber.toggleCommand());
     }
