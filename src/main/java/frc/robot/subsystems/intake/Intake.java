@@ -20,17 +20,21 @@ public class Intake extends SubsystemBase {
     private final MotionMagicVoltage motionMagicVoltage;
     @AutoLogOutput private Goal goal = Goal.RETRACT;
 
-    private static final LoggedTunableNumber armIntakePos = new LoggedTunableNumber("Intake/Intake/ArmPos", 12.0);
-    private static final LoggedTunableNumber armRetractPos = new LoggedTunableNumber("Intake/Retract/ArmPos", 12.0);
-    private static final LoggedTunableNumber rollerIntakeVolts = new LoggedTunableNumber("Intake/Intake/ArmPos", 12.0);
-    private static final LoggedTunableNumber rollerOuttakeVolts = new LoggedTunableNumber("Intake/Intake/ArmPos", -8.0);
-    private static final LoggedTunableNumber rollerStopVolts = new LoggedTunableNumber("Intake/Intake/ArmPos", 0);
+    private static final LoggedTunableNumber armIntakePos = new LoggedTunableNumber("Intake/Intake/ArmPos", 18.165039);
+    private static final LoggedTunableNumber armRetractPos = new LoggedTunableNumber("Intake/Retract/ArmPos", -0.119629);
+    private static final LoggedTunableNumber armMiddlePos = new LoggedTunableNumber("Intake/Middle/ArmPos", 9.0);
+    private static final LoggedTunableNumber rollerIntakeVolts = new LoggedTunableNumber("Intake/Intake/RollerVolts", 12.0);
+    private static final LoggedTunableNumber rollerOuttakeVolts = new LoggedTunableNumber("Intake/Outtake/RollerVolts", -8.0);
+    private static final LoggedTunableNumber rollerStopVolts = new LoggedTunableNumber("Intake/Stop/RollerVolts", 0);
 
     public Intake() {
-        intakeMotor = new TalonFX(IntakeConstants.intakeMotorCanId, IntakeConstants.intakeCanBus);
+        intakeMotor = new TalonFX(IntakeConstants.intakeMotorCanId, new CANBus("canivore"));
         leftIntakeArm = new TalonFX(IntakeConstants.leftIntakeArmCanId, IntakeConstants.intakeCanBus);
         rightIntakeArm = new TalonFX(IntakeConstants.rightIntakeArmCanId, IntakeConstants.intakeCanBus);
         motionMagicVoltage = new MotionMagicVoltage(0).withSlot(0);
+
+        leftIntakeArm.getConfigurator().apply(IntakeConstants.getConfigs());
+        rightIntakeArm.getConfigurator().apply(IntakeConstants.getConfigs());
 
         this.goal = Goal.RETRACT;
     }
@@ -63,6 +67,10 @@ public class Intake extends SubsystemBase {
                 setArmGoal(armIntakePos.get());
                 rollerVolts = rollerOuttakeVolts.get();
             }
+            case MIDDLE -> {
+                setArmGoal(armMiddlePos.get());
+                rollerVolts = rollerStopVolts.get();
+            }
         }
         
         intakeMotor.setControl(new VoltageOut(0.0).withOutput(rollerVolts));
@@ -78,6 +86,7 @@ public class Intake extends SubsystemBase {
     RETRACT,
     DEPLOY,
     INTAKE,
-    OUTTAKE
+    OUTTAKE,
+    MIDDLE
   }
 }

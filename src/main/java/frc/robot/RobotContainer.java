@@ -88,15 +88,17 @@ public class RobotContainer {
 
         drivetrain.registerTelemetry(logger::telemeterize);
 
-        joystick.leftBumper().onTrue(Commands.run(() -> intake.setGoal(Goal.INTAKE), intake));
-        joystick.rightBumper().onTrue(Commands.run(() -> intake.setGoal(Goal.RETRACT), intake));
-        joystick.leftTrigger().onTrue(Commands.run(() -> intake.setGoal(Goal.DEPLOY), intake));
+        joystick.leftTrigger()
+            .whileTrue(Commands.run(() -> intake.setGoal(Goal.INTAKE), intake))
+            .onFalse(Commands.runOnce(() -> intake.setGoal(Goal.DEPLOY), intake));
+        joystick.pov(180).onTrue(Commands.run(() -> intake.setGoal(Goal.RETRACT), intake));
+        joystick.pov(0).onTrue(Commands.run(() -> intake.setGoal(Goal.DEPLOY), intake));
 
         joystick.a().onTrue(Commands.run(() -> index.setIndexState(IndexState.ACTIVE), index));
-        joystick.b().onTrue(Commands.run(() -> index.setIndexState(IndexState.STOP), index));
+        joystick.x().onTrue(Commands.run(() -> index.setIndexState(IndexState.STOP), index));
         
 
-        joystick.y().onTrue(climber.toggleCommand());
+        // joystick.y().onTrue(climber.toggleCommand());
     }
 
     public Command getAutonomousCommand() {

@@ -10,7 +10,7 @@ public class Index extends SubsystemBase {
     private final SparkMax rightIndexMotor;
 
     public enum IndexState {
-        ACTIVE(0.8),
+        ACTIVE(-1.0),
         STOP(0.0);
 
         public double power;
@@ -39,6 +39,6 @@ public class Index extends SubsystemBase {
     @Override
     public void periodic() {
         leftIndexMotor.set(indexState.power);
-        rightIndexMotor.set(-indexState.power);
+        rightIndexMotor.set(indexState.power);
     }
 }
