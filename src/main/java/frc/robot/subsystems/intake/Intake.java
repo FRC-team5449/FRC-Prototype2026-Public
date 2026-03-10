@@ -42,6 +42,10 @@ public class Intake extends SubsystemBase {
         this.goal = Goal.RETRACT;    
     }
 
+    public Goal getGoal() {
+        return this.goal;
+    }
+
     public void setGoal(Goal goal) {
         if(this.goal == goal) return;
         this.goal = goal;

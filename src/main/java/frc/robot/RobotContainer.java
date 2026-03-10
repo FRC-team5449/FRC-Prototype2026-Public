@@ -104,14 +104,15 @@ public class RobotContainer {
         joystick.L2().onFalse(Commands.run(() -> intake.setGoal(Intake.Goal.DEPLOY), intake));
         joystick.R2().onTrue(Commands.run(() -> intake.setGoal(Intake.Goal.RETRACT), intake));
 
-        joystick.L1().onTrue(
-            Commands.run(() -> index.setIndexState(IndexState.ACTIVE), index)
-            .alongWith(
-                new WaitCommand(8)
+        joystick.L1().onTrue(Commands.either(
+            Commands.run(
+                () -> index.setIndexState(IndexState.ACTIVE), index)
+                .alongWith(new WaitCommand(8)
                 .andThen(Commands.run(() -> intake.setGoal(Intake.Goal.MIDDLE), intake))
-            )
-            
-        );
+            ),
+            Commands.run(() -> {}),
+            () -> intake.getGoal() != Intake.Goal.RETRACT
+        ));
         joystick.L1().onFalse(
             Commands.run(() -> index.setIndexState(IndexState.STOP), index)
             .alongWith(Commands.run(() -> intake.setGoal(Intake.Goal.DEPLOY), intake))

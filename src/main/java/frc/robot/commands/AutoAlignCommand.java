@@ -7,9 +7,9 @@ import frc.robot.RobotState;
 import frc.robot.subsystems.drive.CommandSwerveDrivetrain;
 import frc.robot.subsystems.shooter.Shooter;
 import frc.robot.subsystems.turret.Turret;
-import frc.robot.subsystems.shooter.ShooterCalculator;
-
+import frc.robot.util.LaunchCalculator;
 import edu.wpi.first.math.geometry.*;
+import edu.wpi.first.math.kinematics.ChassisSpeeds;
 
 public class AutoAlignCommand extends Command {
 
@@ -32,12 +32,19 @@ public class AutoAlignCommand extends Command {
 
         Translation2d target = FieldConstants.Hub.topCenterPoint;
 
-        double distance =
-                robotPose.getTranslation().getDistance(target);
+        double distance = robotPose.getTranslation().getDistance(target);
 
-        Rotation2d turretAngle = ShooterCalculator.calculateTurretAngle(robotPose, target);
+        ChassisSpeeds speeds = drivetrain.getState().Speeds;
+        Translation2d lead = target.minus(new Translation2d(speeds.vxMetersPerSecond, speeds.vyMetersPerSecond).times(1));
 
-        double rpm = ShooterCalculator.calculateRPM(distance);
+        Rotation2d turretAngle = LaunchCalculator.calculateTurretAngle(robotPose, lead);
+
+        Translation2d robotVel = new Translation2d(speeds.vxMetersPerSecond, speeds.vyMetersPerSecond);
+        Translation2d toTarget = target.minus(robotPose.getTranslation());
+        Translation2d direction = toTarget.div(toTarget.getNorm());
+        double velocityTowardTarget = robotVel.dot(direction);
+
+        double rpm = LaunchCalculator.calculateRPM(distance, velocityTowardTarget);
 
         turret.setAngle(turretAngle);
         shooter.setTarget(rpm);
