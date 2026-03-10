@@ -39,7 +39,7 @@ public class Intake extends SubsystemBase {
         leftIntakeArm.getConfigurator().apply(IntakeConstants.getConfigs());
         rightIntakeArm.getConfigurator().apply(IntakeConstants.getConfigs());
 
-        this.goal = Goal.RETRACT;    
+        this.goal = Goal.DEPLOY;    
     }
 
     public Goal getGoal() {

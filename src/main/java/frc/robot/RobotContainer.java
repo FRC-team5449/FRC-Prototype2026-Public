@@ -19,6 +19,7 @@ import edu.wpi.first.wpilibj2.command.button.RobotModeTriggers;
 import frc.robot.autos.LeftAuto;
 import frc.robot.autos.MiddleAuto;
 import frc.robot.autos.RightAuto;
+import frc.robot.commands.TransitCommand;
 import frc.robot.subsystems.drive.CommandSwerveDrivetrain;
 import frc.robot.subsystems.drive.TunerConstants;
 import frc.robot.subsystems.index.Index;
@@ -101,19 +102,7 @@ public class RobotContainer {
         joystick.L2().onFalse(Commands.run(() -> intake.setGoal(Intake.Goal.DEPLOY), intake));
         joystick.R2().onTrue(Commands.run(() -> intake.setGoal(Intake.Goal.RETRACT), intake));
 
-        joystick.L1().onTrue(Commands.either(
-            Commands.run(
-                () -> index.setIndexState(IndexState.ACTIVE), index)
-                .alongWith(new WaitCommand(8)
-                .andThen(Commands.run(() -> intake.setGoal(Intake.Goal.MIDDLE), intake))
-            ),
-            Commands.run(() -> {}),
-            () -> intake.getGoal() != Intake.Goal.RETRACT
-        ));
-        joystick.L1().onFalse(
-            Commands.run(() -> index.setIndexState(IndexState.STOP), index)
-            .alongWith(Commands.run(() -> intake.setGoal(Intake.Goal.DEPLOY), intake))
-        );
+        joystick.L1().whileTrue(new TransitCommand(intake, index));
 
         joystick.R1().onTrue(Commands.run(() -> {
             shooter.setTarget(-60.0);
