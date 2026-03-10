@@ -13,16 +13,16 @@ import edu.wpi.first.math.kinematics.ChassisSpeeds;
 
 public class AutoAlignCommand extends Command {
 
-    private final Shooter shooter;
-    private final Turret turret;
+    // private final Shooter shooter;
+    // private final Turret turret;
     private final CommandSwerveDrivetrain drivetrain;
 
-    public AutoAlignCommand(Shooter shooter, Turret turret, CommandSwerveDrivetrain drivetrain) {
-        this.shooter = shooter;
-        this.turret = turret;
+    public AutoAlignCommand(CommandSwerveDrivetrain drivetrain) {
+        // this.shooter = shooter;
+        // this.turret = turret;
         this.drivetrain = drivetrain;
 
-        addRequirements(shooter, turret, drivetrain);
+        addRequirements(drivetrain);
     }
 
     @Override
@@ -46,8 +46,8 @@ public class AutoAlignCommand extends Command {
 
         double rpm = LaunchCalculator.calculateRPM(distance, velocityTowardTarget);
 
-        turret.setAngle(turretAngle);
-        shooter.setTarget(rpm);
+        // turret.setAngle(turretAngle);
+        // shooter.setTarget(rpm);
     }
 
     @Override
