@@ -1,0 +1,59 @@
+{
+  "version": "2025.0",
+  "waypoints": [
+    {
+      "anchor": {
+        "x": 13.262685,
+        "y": 1.043206
+      },
+      "prevControl": null,
+      "nextControl": {
+        "x": 13.715848,
+        "y": 0.21596700000000002
+      },
+      "isLocked": false,
+      "linkedName": "red shoot R"
+    },
+    {
+      "anchor": {
+        "x": 8.8597,
+        "y": 0.738706
+      },
+      "prevControl": {
+        "x": 9.8597,
+        "y": 0.738706
+      },
+      "nextControl": null,
+      "isLocked": false,
+      "linkedName": "red pre intake R"
+    }
+  ],
+  "rotationTargets": [
+    {
+      "waypointRelativePos": 0.3914600317028983,
+      "rotationDegrees": 90.0
+    }
+  ],
+  "constraintZones": [],
+  "pointTowardsZones": [],
+  "eventMarkers": [],
+  "globalConstraints": {
+    "maxVelocity": 3.0,
+    "maxAcceleration": 3.0,
+    "maxAngularVelocity": 540.0,
+    "maxAngularAcceleration": 720.0,
+    "nominalVoltage": 12.0,
+    "unlimited": false
+  },
+  "goalEndState": {
+    "velocity": 0,
+    "rotation": 90.0
+  },
+  "reversed": false,
+  "folder": "Red Left",
+  "idealStartingState": {
+    "velocity": 0,
+    "rotation": 135.0
+  },
+  "useDefaultConstraints": true
+}
