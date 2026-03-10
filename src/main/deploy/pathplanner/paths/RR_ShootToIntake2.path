@@ -4,12 +4,12 @@
     {
       "anchor": {
         "x": 13.072052,
-        "y": 0.644012
+        "y": 7.37208835407839
       },
       "prevControl": null,
       "nextControl": {
         "x": 10.953487,
-        "y": 0.446352
+        "y": 7.569748190320684
       },
       "isLocked": false,
       "linkedName": "RRShoot"
@@ -17,11 +17,11 @@
     {
       "anchor": {
         "x": 9.701044,
-        "y": 3.561442
+        "y": 4.454658203120825
       },
       "prevControl": {
         "x": 9.634271,
-        "y": 0.396175
+        "y": 7.619925240550205
       },
       "nextControl": null,
       "isLocked": false,
@@ -35,7 +35,7 @@
     },
     {
       "waypointRelativePos": 0.6729155655391121,
-      "rotationDegrees": 90.0
+      "rotationDegrees": -90.0
     }
   ],
   "constraintZones": [],
@@ -51,7 +51,7 @@
   },
   "goalEndState": {
     "velocity": 0,
-    "rotation": 90.430219
+    "rotation": -90.430219
   },
   "reversed": false,
   "folder": "Red Right",

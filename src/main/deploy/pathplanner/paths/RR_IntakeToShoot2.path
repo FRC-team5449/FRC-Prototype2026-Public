@@ -4,12 +4,12 @@
     {
       "anchor": {
         "x": 9.701044,
-        "y": 3.561442
+        "y": 4.454658203120825
       },
       "prevControl": null,
       "nextControl": {
         "x": 9.556562,
-        "y": 1.168379
+        "y": 6.847721243820622
       },
       "isLocked": false,
       "linkedName": "RR_Shoot2"
@@ -17,11 +17,11 @@
     {
       "anchor": {
         "x": 12.976052,
-        "y": 0.60898
+        "y": 7.407120354431497
       },
       "prevControl": {
         "x": 10.076574,
-        "y": 0.40203
+        "y": 7.614070444915255
       },
       "nextControl": null,
       "isLocked": false,
@@ -31,7 +31,7 @@
   "rotationTargets": [
     {
       "waypointRelativePos": 0.3797238372093021,
-      "rotationDegrees": 90.0
+      "rotationDegrees": -90.0
     },
     {
       "waypointRelativePos": 0.7782604386892176,
@@ -57,7 +57,7 @@
   "folder": "Red Right",
   "idealStartingState": {
     "velocity": 0,
-    "rotation": 90.430219
+    "rotation": -90.430219
   },
   "useDefaultConstraints": true
 }

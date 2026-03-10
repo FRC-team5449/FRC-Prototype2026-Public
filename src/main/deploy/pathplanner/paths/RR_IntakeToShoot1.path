@@ -4,12 +4,12 @@
     {
       "anchor": {
         "x": 9.300789,
-        "y": 3.585055
+        "y": 4.431045473605226
       },
       "prevControl": null,
       "nextControl": {
         "x": 9.257048,
-        "y": 1.361055
+        "y": 6.655045241878531
       },
       "isLocked": false,
       "linkedName": "RR_Intake"
@@ -17,11 +17,11 @@
     {
       "anchor": {
         "x": 13.072052,
-        "y": 0.644012
+        "y": 7.37208835407839
       },
       "prevControl": {
         "x": 10.628376,
-        "y": 0.093371
+        "y": 7.92272946460099
       },
       "nextControl": null,
       "isLocked": false,
@@ -53,7 +53,7 @@
   "folder": "Red Right",
   "idealStartingState": {
     "velocity": 0,
-    "rotation": 74.496798
+    "rotation": -74.496798
   },
   "useDefaultConstraints": true
 }
