@@ -3,35 +3,55 @@
   "waypoints": [
     {
       "anchor": {
-        "x": 3.434639240628872,
-        "y": 0.7391
+        "x": 3.495583509887006,
+        "y": 0.623931
       },
       "prevControl": null,
       "nextControl": {
-        "x": 4.434639240628871,
-        "y": 0.7391
+        "x": 5.505617110257768,
+        "y": 0.609415
       },
       "isLocked": false,
-      "linkedName": "start R"
+      "linkedName": null
     },
     {
       "anchor": {
-        "x": 7.682,
-        "y": 0.738706
+        "x": 7.93172829493291,
+        "y": 0.998977
       },
       "prevControl": {
-        "x": 6.636525675492929,
-        "y": 0.7387060000000001
+        "x": 7.3905225988700565,
+        "y": 0.415917
+      },
+      "nextControl": {
+        "x": 8.633763773153124,
+        "y": 1.755305
+      },
+      "isLocked": false,
+      "linkedName": null
+    },
+    {
+      "anchor": {
+        "x": 7.2409107962570625,
+        "y": 3.585055
+      },
+      "prevControl": {
+        "x": 7.672809270724763,
+        "y": 2.881072
       },
       "nextControl": null,
       "isLocked": false,
-      "linkedName": "pre intake R"
+      "linkedName": "BR_Intake"
     }
   ],
   "rotationTargets": [
     {
-      "waypointRelativePos": 0.5468337077167017,
+      "waypointRelativePos": 0.4,
       "rotationDegrees": -0.0
+    },
+    {
+      "waypointRelativePos": 1.05,
+      "rotationDegrees": 108.0
     }
   ],
   "constraintZones": [],
@@ -46,11 +66,11 @@
     "unlimited": false
   },
   "goalEndState": {
-    "velocity": 0.0,
-    "rotation": 90.0
+    "velocity": 0,
+    "rotation": 105.503202
   },
   "reversed": false,
-  "folder": null,
+  "folder": "Blue Right",
   "idealStartingState": {
     "velocity": 0,
     "rotation": -0.0

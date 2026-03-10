@@ -3,32 +3,41 @@
   "waypoints": [
     {
       "anchor": {
-        "x": 8.8597,
-        "y": 0.7391
+        "x": 13.072052,
+        "y": 0.644012
       },
       "prevControl": null,
       "nextControl": {
-        "x": 8.8597,
-        "y": 1.7391
+        "x": 10.953487,
+        "y": 0.446352
       },
       "isLocked": false,
-      "linkedName": null
+      "linkedName": "RRShoot"
     },
     {
       "anchor": {
-        "x": 8.8597,
-        "y": 2.3631
+        "x": 9.701044,
+        "y": 3.561442
       },
       "prevControl": {
-        "x": 8.8597,
-        "y": 1.3631
+        "x": 9.634271,
+        "y": 0.396175
       },
       "nextControl": null,
       "isLocked": false,
-      "linkedName": null
+      "linkedName": "RR_Shoot2"
     }
   ],
-  "rotationTargets": [],
+  "rotationTargets": [
+    {
+      "waypointRelativePos": 0.32811674154334014,
+      "rotationDegrees": 180.0
+    },
+    {
+      "waypointRelativePos": 0.6729155655391121,
+      "rotationDegrees": 90.0
+    }
+  ],
   "constraintZones": [],
   "pointTowardsZones": [],
   "eventMarkers": [],
@@ -42,13 +51,13 @@
   },
   "goalEndState": {
     "velocity": 0,
-    "rotation": 90.0
+    "rotation": 90.430219
   },
   "reversed": false,
-  "folder": null,
+  "folder": "Red Right",
   "idealStartingState": {
     "velocity": 0,
-    "rotation": 90.0
+    "rotation": 180.0
   },
   "useDefaultConstraints": true
 }
