@@ -16,12 +16,9 @@ import edu.wpi.first.wpilibj2.command.Commands;
 import edu.wpi.first.wpilibj2.command.WaitCommand;
 import edu.wpi.first.wpilibj2.command.button.CommandPS5Controller;
 import edu.wpi.first.wpilibj2.command.button.RobotModeTriggers;
-import frc.robot.autos.BlueLeftAuto;
-import frc.robot.autos.BlueMiddleAuto;
-import frc.robot.autos.BlueRightAuto;
-import frc.robot.autos.RedLeftAuto;
-import frc.robot.autos.RedMiddleAuto;
-import frc.robot.autos.RedRightAuto;
+import frc.robot.autos.LeftAuto;
+import frc.robot.autos.MiddleAuto;
+import frc.robot.autos.RightAuto;
 import frc.robot.subsystems.drive.CommandSwerveDrivetrain;
 import frc.robot.subsystems.drive.TunerConstants;
 import frc.robot.subsystems.index.Index;
@@ -133,12 +130,9 @@ public class RobotContainer {
     }
 
     private void configureAutos() {
-        autoChooser.setDefaultOption("Blue Left", new BlueLeftAuto());
-        autoChooser.addOption("Blue Right", new BlueRightAuto());
-        autoChooser.addOption("Blue Middle", new BlueMiddleAuto());
-        autoChooser.addOption("Red Left", new RedLeftAuto());
-        autoChooser.addOption("Red Right", new RedRightAuto());
-        autoChooser.addOption("Red Middle", new RedMiddleAuto());
+        autoChooser.setDefaultOption("Left", new LeftAuto(/* intake */));
+        autoChooser.addOption("Right", new RightAuto(/* intake */));
+        autoChooser.addOption("Middle", new MiddleAuto(/* intake */));
         SmartDashboard.putData("Auto Chooser", autoChooser);
     }
 
