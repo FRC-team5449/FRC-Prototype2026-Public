@@ -12,7 +12,7 @@
         "y": 7.277
       },
       "isLocked": false,
-      "linkedName": "red start"
+      "linkedName": "start Red"
     },
     {
       "anchor": {
@@ -25,10 +25,15 @@
       },
       "nextControl": null,
       "isLocked": false,
-      "linkedName": "red pre intake"
+      "linkedName": "pre intake Red"
     }
   ],
-  "rotationTargets": [],
+  "rotationTargets": [
+    {
+      "waypointRelativePos": 0.5468337077167017,
+      "rotationDegrees": 180.0
+    }
+  ],
   "constraintZones": [],
   "pointTowardsZones": [],
   "eventMarkers": [],
@@ -45,7 +50,7 @@
     "rotation": -90.0
   },
   "reversed": false,
-  "folder": "Red Right",
+  "folder": "Red Left",
   "idealStartingState": {
     "velocity": 0,
     "rotation": 180.0

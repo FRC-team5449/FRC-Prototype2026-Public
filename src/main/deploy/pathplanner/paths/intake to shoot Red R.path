@@ -8,8 +8,8 @@
       },
       "prevControl": null,
       "nextControl": {
-        "x": 8.484676,
-        "y": 0.9868309999999998
+        "x": 7.996912,
+        "y": 0.447078
       },
       "isLocked": false,
       "linkedName": null
@@ -20,18 +20,18 @@
         "y": 1.043206
       },
       "prevControl": {
-        "x": 13.016938,
-        "y": 0.30613200000000007
+        "x": 12.540136,
+        "y": 0.036952
       },
       "nextControl": null,
       "isLocked": false,
-      "linkedName": "red shoot R"
+      "linkedName": "shoot Red R"
     }
   ],
   "rotationTargets": [
     {
-      "waypointRelativePos": 0.5824133831521741,
-      "rotationDegrees": 180.0
+      "waypointRelativePos": 0.5043604651162787,
+      "rotationDegrees": 90.0
     }
   ],
   "constraintZones": [],
@@ -50,7 +50,7 @@
     "rotation": 135.0
   },
   "reversed": false,
-  "folder": "Red Left",
+  "folder": "Red Right",
   "idealStartingState": {
     "velocity": 0.0,
     "rotation": 90.0

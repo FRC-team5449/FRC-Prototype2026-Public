@@ -28,7 +28,12 @@
       "linkedName": "pre intake R"
     }
   ],
-  "rotationTargets": [],
+  "rotationTargets": [
+    {
+      "waypointRelativePos": 0.5468337077167017,
+      "rotationDegrees": -0.0
+    }
+  ],
   "constraintZones": [],
   "pointTowardsZones": [],
   "eventMarkers": [],
