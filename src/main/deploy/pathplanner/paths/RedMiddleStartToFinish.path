@@ -3,35 +3,35 @@
   "waypoints": [
     {
       "anchor": {
-        "x": 3.2790145310563816,
-        "y": 6.972893964916357
+        "x": 13.049656,
+        "y": 3.922641
       },
       "prevControl": null,
       "nextControl": {
-        "x": 2.8258520175030983,
-        "y": 7.8001331126084255
+        "x": 14.463956,
+        "y": 3.330637
       },
       "isLocked": false,
-      "linkedName": "shoot"
+      "linkedName": null
     },
     {
       "anchor": {
-        "x": 7.682,
-        "y": 7.277393703531598
+        "x": 16.024241,
+        "y": 2.037388
       },
       "prevControl": {
-        "x": 6.682,
-        "y": 7.277393703531598
+        "x": 14.731057,
+        "y": 2.1663779999999995
       },
       "nextControl": null,
       "isLocked": false,
-      "linkedName": "pre intake"
+      "linkedName": "Middle Start mirror"
     }
   ],
   "rotationTargets": [
     {
-      "waypointRelativePos": 0.3914600317028983,
-      "rotationDegrees": -90.0
+      "waypointRelativePos": 0.5,
+      "rotationDegrees": 0.0
     }
   ],
   "constraintZones": [],
@@ -47,13 +47,13 @@
   },
   "goalEndState": {
     "velocity": 0,
-    "rotation": -90.0
+    "rotation": 0.0
   },
   "reversed": false,
-  "folder": "Blue Left",
+  "folder": null,
   "idealStartingState": {
     "velocity": 0,
-    "rotation": -45.0
+    "rotation": 180.0
   },
   "useDefaultConstraints": true
 }
