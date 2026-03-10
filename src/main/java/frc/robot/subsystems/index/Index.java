@@ -1,5 +1,7 @@
 package frc.robot.subsystems.index;
 
+import com.ctre.phoenix6.controls.DutyCycleOut;
+import com.ctre.phoenix6.hardware.TalonFX;
 import com.revrobotics.spark.SparkMax;
 import com.revrobotics.spark.SparkLowLevel.MotorType;
 
@@ -8,8 +10,7 @@ import edu.wpi.first.wpilibj2.command.SubsystemBase;
 import frc.robot.subsystems.intake.Intake;
 
 public class Index extends SubsystemBase {
-    private final SparkMax leftIndexMotor;
-    private final SparkMax rightIndexMotor;
+    private final TalonFX indexMotor;
 
     public enum IndexState {
         ACTIVE(-0.65),
@@ -25,8 +26,7 @@ public class Index extends SubsystemBase {
     private IndexState indexState;
 
     public Index() {
-        leftIndexMotor = new SparkMax(IndexConstants.leftIndexMotorCanId, MotorType.kBrushless);
-        rightIndexMotor = new SparkMax(IndexConstants.rightIndexMotorCanId, MotorType.kBrushless);
+        indexMotor = new TalonFX(IndexConstants.indexMotorCanId, "rio");
         indexState = IndexState.STOP;
     }
 
@@ -40,7 +40,6 @@ public class Index extends SubsystemBase {
 
     @Override
     public void periodic() {
-        leftIndexMotor.set(indexState.power);
-        rightIndexMotor.set(indexState.power);
+        indexMotor.setControl(new DutyCycleOut(indexState.power));
     }
 }
