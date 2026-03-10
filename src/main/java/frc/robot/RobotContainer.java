@@ -27,12 +27,14 @@ import frc.robot.subsystems.index.Index.IndexState;
 import frc.robot.subsystems.intake.Intake;
 import frc.robot.subsystems.shooter.Shooter;
 import frc.robot.subsystems.climber.Climber;
+import frc.robot.subsystems.hood.Hood;
 
 public class RobotContainer {
     private final Intake intake;
     private final Climber climber;
     private final Index index;
     private final Shooter shooter;
+    private final Hood hood;
 
     private final SendableChooser<Command> autoChooser = new SendableChooser<>();
     
@@ -57,6 +59,7 @@ public class RobotContainer {
         climber = new Climber();
         index = new Index();
         shooter = new Shooter();
+        hood = new Hood();
 
         configureBindings();
         configureAutos();
