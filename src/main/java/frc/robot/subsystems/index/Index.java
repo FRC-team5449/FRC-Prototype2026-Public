@@ -3,7 +3,9 @@ package frc.robot.subsystems.index;
 import com.revrobotics.spark.SparkMax;
 import com.revrobotics.spark.SparkLowLevel.MotorType;
 
+import edu.wpi.first.wpilibj.Timer;
 import edu.wpi.first.wpilibj2.command.SubsystemBase;
+import frc.robot.subsystems.intake.Intake;
 
 public class Index extends SubsystemBase {
     private final SparkMax leftIndexMotor;

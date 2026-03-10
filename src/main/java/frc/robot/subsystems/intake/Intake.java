@@ -12,6 +12,7 @@ import com.ctre.phoenix6.controls.VoltageOut;
 import com.ctre.phoenix6.hardware.TalonFX;
 import com.ctre.phoenix6.signals.MotorAlignmentValue;
 
+import edu.wpi.first.wpilibj.Timer;
 import edu.wpi.first.wpilibj2.command.Command;
 import edu.wpi.first.wpilibj2.command.SubsystemBase;
 
@@ -19,6 +20,8 @@ public class Intake extends SubsystemBase {
     private final TalonFX intakeMotor, leftIntakeArm, rightIntakeArm;
     private final MotionMagicVoltage motionMagicVoltage;
     @AutoLogOutput private Goal goal = Goal.RETRACT;
+
+    
 
     private static final LoggedTunableNumber armIntakePos = new LoggedTunableNumber("Intake/Intake/ArmPos", 19.4423);
     private static final LoggedTunableNumber armRetractPos = new LoggedTunableNumber("Intake/Retract/ArmPos", -0.210449);
@@ -36,13 +39,12 @@ public class Intake extends SubsystemBase {
         leftIntakeArm.getConfigurator().apply(IntakeConstants.getConfigs());
         rightIntakeArm.getConfigurator().apply(IntakeConstants.getConfigs());
 
-        this.goal = Goal.RETRACT;
+        this.goal = Goal.RETRACT;    
     }
 
     public void setGoal(Goal goal) {
         if(this.goal == goal) return;
         this.goal = goal;
-        //goaltimer.reset();
     }
 
 
@@ -69,7 +71,7 @@ public class Intake extends SubsystemBase {
             }
             case MIDDLE -> {
                 setArmGoal(armMiddlePos.get());
-                rollerVolts = rollerStopVolts.get();
+                rollerVolts = rollerIntakeVolts.get();
             }
         }
         

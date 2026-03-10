@@ -4,7 +4,7 @@ import com.ctre.phoenix6.CANBus;
 import com.ctre.phoenix6.configs.TalonFXConfiguration;
 
 public class ShooterConstants {
-    public static CANBus shooterCanBus = new CANBus("canivore");
+    public static CANBus shooterCanBus = new CANBus("rio");
     public static int leftShooterMotorCanId = 23;
     public static int rightShooterMotorCanId = 22;
 

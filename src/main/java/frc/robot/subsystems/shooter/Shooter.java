@@ -85,7 +85,7 @@ public class Shooter extends SubsystemBase {
                 setRPM(rpmSetpoint);
             }
             case OPENLOOP -> {
-                leftShooterMotor.setControl(new DutyCycleOut(-0.8));
+                leftShooterMotor.setControl(new DutyCycleOut(-0.6));
                 rightShooterMotor.setControl(new Follower(ShooterConstants.leftShooterMotorCanId, MotorAlignmentValue.Opposed));
             }
         }

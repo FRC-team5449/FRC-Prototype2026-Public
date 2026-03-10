@@ -10,11 +10,13 @@ import com.ctre.phoenix6.swerve.SwerveModule.DriveRequestType;
 import com.ctre.phoenix6.swerve.SwerveRequest;
 
 import edu.wpi.first.math.geometry.Rotation2d;
+import edu.wpi.first.wpilibj.Timer;
 import edu.wpi.first.wpilibj.smartdashboard.SendableChooser;
 import edu.wpi.first.wpilibj.smartdashboard.SmartDashboard;
 import edu.wpi.first.wpilibj2.command.Command;
 import edu.wpi.first.wpilibj2.command.Commands;
-import edu.wpi.first.wpilibj2.command.button.CommandXboxController;
+import edu.wpi.first.wpilibj2.command.WaitCommand;
+import edu.wpi.first.wpilibj2.command.button.CommandPS5Controller;
 import edu.wpi.first.wpilibj2.command.button.RobotModeTriggers;
 import edu.wpi.first.wpilibj2.command.sysid.SysIdRoutine.Direction;
 import frc.robot.autos.BlueLeftAuto;
@@ -33,6 +35,7 @@ public class RobotContainer {
     private final Climber climber;
     private final Index index;
     private final Shooter shooter;
+
     private final SendableChooser<Command> autoChooser = new SendableChooser<>();
     
     private double MaxSpeed = 1.0 * TunerConstants.kSpeedAt12Volts.in(MetersPerSecond); // kSpeedAt12Volts desired top speed
@@ -47,7 +50,7 @@ public class RobotContainer {
 
     private final Telemetry logger = new Telemetry(MaxSpeed);
 
-    private final CommandXboxController joystick = new CommandXboxController(0);
+    private final CommandPS5Controller joystick = new CommandPS5Controller(0);
 
     public final CommandSwerveDrivetrain drivetrain = TunerConstants.createDrivetrain();
 
@@ -56,6 +59,7 @@ public class RobotContainer {
         climber = new Climber();
         index = new Index();
         shooter = new Shooter();
+
         configureBindings();
         configureAutos();
     }
@@ -79,41 +83,52 @@ public class RobotContainer {
             drivetrain.applyRequest(() -> idle).ignoringDisable(true)
         );
 
-        joystick.b().whileTrue(drivetrain.applyRequest(() -> brake));
-        // joystick.b().whileTrue(drivetrain.applyRequest(() ->
+        joystick.circle().whileTrue(drivetrain.applyRequest(() -> brake));
+        // joystick.circle().whileTrue(drivetrain.applyRequest(() ->
         //     point.withModuleDirection(new Rotation2d(-joystick.getLeftY(), -joystick.getLeftX()))
         // ));
 
-        // Run SysId routines when holding back/start and X/Y.
+        // Run SysId routines when holding create/options and square/triangle.
         // Note that each routine should be run exactly once in a single log.
-        // joystick.back().and(joystick.y()).whileTrue(drivetrain.sysIdDynamic(Direction.kForward));
-        // joystick.back().and(joystick.x()).whileTrue(drivetrain.sysIdDynamic(Direction.kReverse));
-        // joystick.start().and(joystick.y()).whileTrue(drivetrain.sysIdQuasistatic(Direction.kForward));
-        // joystick.start().and(joystick.x()).whileTrue(drivetrain.sysIdQuasistatic(Direction.kReverse));
+        // joystick.create().and(joystick.triangle()).whileTrue(drivetrain.sysIdDynamic(Direction.kForward));
+        // joystick.create().and(joystick.square()).whileTrue(drivetrain.sysIdDynamic(Direction.kReverse));
+        // joystick.options().and(joystick.triangle()).whileTrue(drivetrain.sysIdQuasistatic(Direction.kForward));
+        // joystick.options().and(joystick.square()).whileTrue(drivetrain.sysIdQuasistatic(Direction.kReverse));
 
-        // Reset the field-centric heading on left bumper press.
-        joystick.start().onTrue(drivetrain.runOnce(drivetrain::seedFieldCentric));
+        // Reset the field-centric heading on options press.
+        joystick.options().onTrue(drivetrain.runOnce(drivetrain::seedFieldCentric));
 
         drivetrain.registerTelemetry(logger::telemeterize);
 
-        joystick.leftTrigger().onTrue(Commands.run(() -> intake.setGoal(Intake.Goal.INTAKE), intake));
-        joystick.leftTrigger().onFalse(Commands.run(() -> intake.setGoal(Intake.Goal.DEPLOY), intake));
-        joystick.rightTrigger().onTrue(Commands.run(() -> intake.setGoal(Intake.Goal.RETRACT), intake));
+        joystick.L2().onTrue(Commands.run(() -> intake.setGoal(Intake.Goal.INTAKE), intake));
+        joystick.L2().onFalse(Commands.run(() -> intake.setGoal(Intake.Goal.DEPLOY), intake));
+        joystick.R2().onTrue(Commands.run(() -> intake.setGoal(Intake.Goal.RETRACT), intake));
 
-        joystick.leftBumper().onTrue(Commands.run(() -> index.setIndexState(IndexState.ACTIVE), index));
-        joystick.leftBumper().onFalse(Commands.run(() -> index.setIndexState(IndexState.STOP), index));
+        joystick.L1().onTrue(
+            Commands.run(() -> index.setIndexState(IndexState.ACTIVE), index)
+            .alongWith(
+                new WaitCommand(8)
+                .andThen(Commands.run(() -> intake.setGoal(Intake.Goal.MIDDLE), intake))
+            )
+            
+        );
+        joystick.L1().onFalse(
+            Commands.run(() -> index.setIndexState(IndexState.STOP), index)
+            .alongWith(Commands.run(() -> intake.setGoal(Intake.Goal.DEPLOY), intake))
+        );
 
-        joystick.rightBumper().onTrue(Commands.run(() -> {
+        joystick.R1().onTrue(Commands.run(() -> {
             shooter.setTarget(-60.0);
             //shooter.setGoal(Shooter.Goal.HUB)
             shooter.setGoal(Shooter.Goal.OPENLOOP);
         }, shooter));
-        joystick.rightBumper().onFalse(Commands.run(() -> {
+
+        joystick.R1().onFalse(Commands.run(() -> {
             shooter.setTarget(0);
             shooter.setGoal(Shooter.Goal.STOP);
         }, shooter));
         
-        // joystick.y().onTrue(climber.toggleCommand());
+        // joystick.triangle().onTrue(climber.toggleCommand());
     }
 
     private void configureAutos() {
