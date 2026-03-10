@@ -19,6 +19,7 @@ import edu.wpi.first.wpilibj2.command.button.RobotModeTriggers;
 import frc.robot.autos.LeftAuto;
 import frc.robot.autos.MiddleAuto;
 import frc.robot.autos.RightAuto;
+import frc.robot.commands.AutoAlignCommand;
 import frc.robot.commands.TransitCommand;
 import frc.robot.subsystems.drive.CommandSwerveDrivetrain;
 import frc.robot.subsystems.drive.TunerConstants;
@@ -26,6 +27,7 @@ import frc.robot.subsystems.index.Index;
 import frc.robot.subsystems.index.Index.IndexState;
 import frc.robot.subsystems.intake.Intake;
 import frc.robot.subsystems.shooter.Shooter;
+import frc.robot.subsystems.vision.VisionSubsystem;
 import frc.robot.subsystems.climber.Climber;
 
 public class RobotContainer {
@@ -52,11 +54,17 @@ public class RobotContainer {
 
     public final CommandSwerveDrivetrain drivetrain = TunerConstants.createDrivetrain();
 
+    // 在 RobotContainer 构造函数中
+    private final VisionSubsystem vision;
+
     public RobotContainer() {
         intake = new Intake();
         climber = new Climber();
         index = new Index();
         shooter = new Shooter();
+        vision = new VisionSubsystem("limelight");
+    
+        drivetrain.setVisionSubsystem(vision);
 
         configureBindings();
         configureAutos();

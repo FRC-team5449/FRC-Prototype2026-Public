@@ -56,28 +56,28 @@ public class Intake extends SubsystemBase {
     public void periodic() {
         //calculate goal
         double rollerVolts = 0;
-        switch(goal) {
-            case RETRACT -> {
-                setArmGoal(armRetractPos.get());
-                rollerVolts = rollerStopVolts.get();
-            }
-            case DEPLOY -> {
-                setArmGoal(armIntakePos.get());
-                rollerVolts = rollerStopVolts.get();
-            }
-            case INTAKE -> {
-                setArmGoal(armIntakePos.get());
-                rollerVolts = rollerIntakeVolts.get();
-            }
-            case OUTTAKE -> {
-                setArmGoal(armIntakePos.get());
-                rollerVolts = rollerOuttakeVolts.get();
-            }
-            case MIDDLE -> {
-                setArmGoal(armMiddlePos.get());
-                rollerVolts = rollerIntakeVolts.get();
-            }
-        }
+        // switch(goal) {
+        //     case RETRACT -> {
+        //         setArmGoal(armRetractPos.get());
+        //         rollerVolts = rollerStopVolts.get();
+        //     }
+        //     case DEPLOY -> {
+        //         setArmGoal(armIntakePos.get());
+        //         rollerVolts = rollerStopVolts.get();
+        //     }
+        //     case INTAKE -> {
+        //         setArmGoal(armIntakePos.get());
+        //         rollerVolts = rollerIntakeVolts.get();
+        //     }
+        //     case OUTTAKE -> {
+        //         setArmGoal(armIntakePos.get());
+        //         rollerVolts = rollerOuttakeVolts.get();
+        //     }
+        //     case MIDDLE -> {
+        //         setArmGoal(armMiddlePos.get());
+        //         rollerVolts = rollerIntakeVolts.get();
+        //     }
+        // }
         
         intakeMotor.setControl(new VoltageOut(0.0).withOutput(rollerVolts));
         
