@@ -7,22 +7,22 @@ import edu.wpi.first.wpilibj.DriverStation;
 import edu.wpi.first.wpilibj2.command.Commands;
 import edu.wpi.first.wpilibj2.command.SequentialCommandGroup;
 
-public class BlueLeftAuto extends SequentialCommandGroup {
+public class RedLeftAuto extends SequentialCommandGroup {
     private static final String[] PATHS = {
-        "BL_StartToIntake1",
-        "BL_IntakeToShoot1",
-        "BL_ShootToIntake2",
-        "BL_IntakeToShoot2"
+        "RL_StartToIntake1",
+        "RL_IntakeToShoot1",
+        "RL_ShootToIntake2",
+        "RL_IntakeToShoot2"
     };
 
-    public BlueLeftAuto() {
+    public RedLeftAuto() {
         try {
             for (String name : PATHS) {
                 addCommands(AutoBuilder.followPath(PathPlannerPath.fromPathFile(name)));
             }
         } catch (Exception e) {
             DriverStation.reportError(
-                "Failed to load BlueLeft auto: " + e.getMessage(), e.getStackTrace());
+                "Failed to load RedLeft auto: " + e.getMessage(), e.getStackTrace());
             addCommands(Commands.none());
         }
     }

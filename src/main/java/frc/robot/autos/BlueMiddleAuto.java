@@ -7,14 +7,13 @@ import edu.wpi.first.wpilibj.DriverStation;
 import edu.wpi.first.wpilibj2.command.Commands;
 import edu.wpi.first.wpilibj2.command.SequentialCommandGroup;
 
-public class BlueRightLoadingAuto extends SequentialCommandGroup {
-    public BlueRightLoadingAuto() {
+public class BlueMiddleAuto extends SequentialCommandGroup {
+    public BlueMiddleAuto() {
         try {
-            PathPlannerPath path = PathPlannerPath.fromPathFile("BlueRightLoading");
-            addCommands(AutoBuilder.followPath(path));
+            addCommands(AutoBuilder.followPath(PathPlannerPath.fromPathFile("BM_StartToFinish")));
         } catch (Exception e) {
             DriverStation.reportError(
-                "Failed to load BlueRightLoading path: " + e.getMessage(), e.getStackTrace());
+                "Failed to load BlueMiddle auto: " + e.getMessage(), e.getStackTrace());
             addCommands(Commands.none());
         }
     }

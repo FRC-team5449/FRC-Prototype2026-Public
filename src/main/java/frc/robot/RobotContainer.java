@@ -9,8 +9,6 @@ import static edu.wpi.first.units.Units.*;
 import com.ctre.phoenix6.swerve.SwerveModule.DriveRequestType;
 import com.ctre.phoenix6.swerve.SwerveRequest;
 
-import edu.wpi.first.math.geometry.Rotation2d;
-import edu.wpi.first.wpilibj.Timer;
 import edu.wpi.first.wpilibj.smartdashboard.SendableChooser;
 import edu.wpi.first.wpilibj.smartdashboard.SmartDashboard;
 import edu.wpi.first.wpilibj2.command.Command;
@@ -18,16 +16,18 @@ import edu.wpi.first.wpilibj2.command.Commands;
 import edu.wpi.first.wpilibj2.command.WaitCommand;
 import edu.wpi.first.wpilibj2.command.button.CommandPS5Controller;
 import edu.wpi.first.wpilibj2.command.button.RobotModeTriggers;
-import edu.wpi.first.wpilibj2.command.sysid.SysIdRoutine.Direction;
 import frc.robot.autos.BlueLeftAuto;
-import frc.robot.autos.BlueRightLoadingAuto;
+import frc.robot.autos.BlueMiddleAuto;
+import frc.robot.autos.BlueRightAuto;
+import frc.robot.autos.RedLeftAuto;
+import frc.robot.autos.RedMiddleAuto;
+import frc.robot.autos.RedRightAuto;
 import frc.robot.subsystems.drive.CommandSwerveDrivetrain;
 import frc.robot.subsystems.drive.TunerConstants;
 import frc.robot.subsystems.index.Index;
 import frc.robot.subsystems.index.Index.IndexState;
 import frc.robot.subsystems.intake.Intake;
 import frc.robot.subsystems.shooter.Shooter;
-import frc.robot.subsystems.shooter.Shooter.Goal;
 import frc.robot.subsystems.climber.Climber;
 
 public class RobotContainer {
@@ -134,7 +134,11 @@ public class RobotContainer {
 
     private void configureAutos() {
         autoChooser.setDefaultOption("Blue Left", new BlueLeftAuto());
-        autoChooser.addOption("Blue Right Loading", new BlueRightLoadingAuto());
+        autoChooser.addOption("Blue Right", new BlueRightAuto());
+        autoChooser.addOption("Blue Middle", new BlueMiddleAuto());
+        autoChooser.addOption("Red Left", new RedLeftAuto());
+        autoChooser.addOption("Red Right", new RedRightAuto());
+        autoChooser.addOption("Red Middle", new RedMiddleAuto());
         SmartDashboard.putData("Auto Chooser", autoChooser);
     }
 
