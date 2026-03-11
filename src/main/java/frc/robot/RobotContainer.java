@@ -136,9 +136,9 @@ public class RobotContainer {
     }
 
     private void configureAutos() {
-        autoChooser.setDefaultOption("Left", new LeftAuto(/* intake */));
-        autoChooser.addOption("Right", new RightAuto(/* intake */));
-        autoChooser.addOption("Middle", new MiddleAuto(/* intake */));
+        autoChooser.setDefaultOption("Left", new LeftAuto(shooter, turret, index, hood, drivetrain /* , intake */));
+        autoChooser.addOption("Right", new RightAuto(shooter, turret, index, hood, drivetrain /* , intake */));
+        autoChooser.addOption("Middle", new MiddleAuto(shooter, turret, index, hood, drivetrain));
         SmartDashboard.putData("Auto Chooser", autoChooser);
     }
 

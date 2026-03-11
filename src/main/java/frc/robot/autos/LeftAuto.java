@@ -6,23 +6,54 @@ import com.pathplanner.lib.path.PathPlannerPath;
 import edu.wpi.first.wpilibj.DriverStation;
 import edu.wpi.first.wpilibj2.command.Commands;
 import edu.wpi.first.wpilibj2.command.SequentialCommandGroup;
-// import frc.robot.subsystems.intake.Intake;
+import edu.wpi.first.wpilibj2.command.WaitCommand;
+import frc.robot.commands.AutoAlignCommand;
+import frc.robot.commands.ShootCommand;
+import frc.robot.subsystems.drive.CommandSwerveDrivetrain;
+import frc.robot.subsystems.hood.Hood;
+import frc.robot.subsystems.index.Index;
+import frc.robot.subsystems.index.Index.IndexState;
+import frc.robot.subsystems.intake.Intake;
+import frc.robot.subsystems.shooter.Shooter;
+import frc.robot.subsystems.turret.Turret;
 
 public class LeftAuto extends SequentialCommandGroup {
-    public LeftAuto(/* Intake intake */) {
+    public LeftAuto(Shooter shooter, Turret turret, Index index, Hood hood,
+                    CommandSwerveDrivetrain drivetrain /* , Intake intake */) {
         try {
             addCommands(
+                // --- 起始点：自动瞄准 + 射击（预装球）---
+                // new AutoAlignCommand(turret, drivetrain, hood).withTimeout(1.5),
+                // new ShootCommand(shooter, true).withTimeout(1.0),
+                // Commands.runOnce(() -> index.setState(IndexState.ACTIVE)),
+                // new WaitCommand(0.5),
+                // Commands.runOnce(() -> index.setState(IndexState.STOP)),
+
                 // Commands.runOnce(() -> intake.setGoal(Intake.Goal.INTAKE)),
                 AutoBuilder.followPath(PathPlannerPath.fromPathFile("BL_StartToIntake1")),
 
                 // Commands.runOnce(() -> intake.setGoal(Intake.Goal.MIDDLE)),
                 AutoBuilder.followPath(PathPlannerPath.fromPathFile("BL_IntakeToShoot1")),
 
+                // --- Shoot1：自动瞄准 + 射击 ---
+                // new AutoAlignCommand(turret, drivetrain, hood).withTimeout(1.5),
+                // new ShootCommand(shooter, true).withTimeout(1.0),
+                // Commands.runOnce(() -> index.setState(IndexState.ACTIVE)),
+                // new WaitCommand(0.5),
+                // Commands.runOnce(() -> index.setState(IndexState.STOP)),
+
                 // Commands.runOnce(() -> intake.setGoal(Intake.Goal.INTAKE)),
                 AutoBuilder.followPath(PathPlannerPath.fromPathFile("BL_ShootToIntake2")),
 
                 // Commands.runOnce(() -> intake.setGoal(Intake.Goal.MIDDLE)),
                 AutoBuilder.followPath(PathPlannerPath.fromPathFile("BL_IntakeToShoot2"))
+
+                // --- Shoot2：自动瞄准 + 射击 ---
+                // new AutoAlignCommand(turret, drivetrain, hood).withTimeout(1.5),
+                // new ShootCommand(shooter, true).withTimeout(1.0),
+                // Commands.runOnce(() -> index.setState(IndexState.ACTIVE)),
+                // new WaitCommand(0.5),
+                // Commands.runOnce(() -> index.setState(IndexState.STOP))
             );
         } catch (Exception e) {
             DriverStation.reportError(
