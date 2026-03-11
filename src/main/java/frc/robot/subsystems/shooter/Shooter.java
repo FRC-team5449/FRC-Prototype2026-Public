@@ -22,6 +22,8 @@ public class Shooter extends SubsystemBase {
     private Goal goal;
     private double rpmSetpoint;
 
+    private double openLoopPower;
+
     public final LoggedTunableNumber kP = new LoggedTunableNumber("Shooter/kP", ShooterConstants.getConfigs().Slot0.kP);
     public final LoggedTunableNumber kI = new LoggedTunableNumber("Shooter/kI", ShooterConstants.getConfigs().Slot0.kI);
     public final LoggedTunableNumber kD = new LoggedTunableNumber("Shooter/kD", ShooterConstants.getConfigs().Slot0.kD);
@@ -34,7 +36,9 @@ public class Shooter extends SubsystemBase {
         velocityVoltage = new VelocityVoltage(0).withSlot(0);
         leftShooterMotor.getConfigurator().apply(ShooterConstants.getConfigs());
         rightShooterMotor.getConfigurator().apply(ShooterConstants.getConfigs());
-        goal = Goal.STOP;
+        goal = Goal.OPENLOOP;
+
+        openLoopPower = 0;
     }
 
     public enum Goal {
@@ -46,6 +50,10 @@ public class Shooter extends SubsystemBase {
 
     public void setTarget(double rpm) {
         rpmSetpoint = rpm;
+    }
+
+    public void setOpenLoopPower(double power) {
+        this.openLoopPower = power;
     }
 
     private void setRPM(double rpm) {
@@ -85,7 +93,7 @@ public class Shooter extends SubsystemBase {
                 setRPM(rpmSetpoint);
             }
             case OPENLOOP -> {
-                leftShooterMotor.setControl(new DutyCycleOut(-0.6));
+                leftShooterMotor.setControl(new DutyCycleOut(openLoopPower));
                 rightShooterMotor.setControl(new Follower(ShooterConstants.leftShooterMotorCanId, MotorAlignmentValue.Opposed));
             }
         }

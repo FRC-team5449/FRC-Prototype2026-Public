@@ -20,6 +20,7 @@ import frc.robot.autos.LeftAuto;
 import frc.robot.autos.MiddleAuto;
 import frc.robot.autos.RightAuto;
 import frc.robot.commands.AutoAlignCommand;
+import frc.robot.commands.ShootCommand;
 import frc.robot.commands.TransitCommand;
 import frc.robot.subsystems.drive.CommandSwerveDrivetrain;
 import frc.robot.subsystems.drive.TunerConstants;
@@ -31,6 +32,7 @@ import frc.robot.subsystems.turret.Turret;
 import frc.robot.subsystems.vision.VisionSubsystem;
 import frc.robot.subsystems.climber.Climber;
 import frc.robot.subsystems.hood.Hood;
+import frc.robot.subsystems.hood.Hood.Position;
 
 public class RobotContainer {
     private final Intake intake;
@@ -58,7 +60,6 @@ public class RobotContainer {
 
     public final CommandSwerveDrivetrain drivetrain = TunerConstants.createDrivetrain();
 
-    // 在 RobotContainer 构造函数中
     private final VisionSubsystem vision;
 
     public RobotContainer() {
@@ -116,36 +117,22 @@ public class RobotContainer {
             Commands.run(() -> intake.setGoal(Intake.Goal.MIDDLE), intake)
                 .finallyDo(() -> intake.setGoal(Intake.Goal.DEPLOY))
         );
-        joystick.R2().onTrue(Commands.runOnce(() -> intake.setGoal(Intake.Goal.RETRACT), intake));
+        joystick.R2().whileTrue(new TransitCommand(intake, index));
 
-        joystick.L1().whileTrue(new TransitCommand(intake, index));
+        joystick.L1().whileTrue(new ShootCommand(shooter, false));
 
-        joystick.R1().onTrue(Commands.run(() -> {
-            shooter.setTarget(-60.0);
-            shooter.setGoal(Shooter.Goal.HUB);
-        }, shooter));
+        // joystick.R1().onTrue(Commands.run(() -> {
+        //     shooter.setTarget(-60.0);
+        //     shooter.setGoal(Shooter.Goal.HUB);
+        // }, shooter));
 
-        joystick.R1().onFalse(Commands.run(() -> {
-            shooter.setTarget(0);
-            shooter.setGoal(Shooter.Goal.STOP);
-        }, shooter));
+        joystick.R1().whileTrue(new ShootCommand(shooter, true));
+
+        joystick.pov(0).onTrue(Commands.run(() -> hood.setPosition(Position.UP)));
+
+        joystick.pov(180).onTrue(Commands.run(() -> hood.setPosition(Position.MIDDLE)));
         
         // joystick.triangle().onTrue(climber.toggleCommand());
-
-        joystick.square().onTrue(Commands.runOnce(() -> {
-            double current = hood.getPosition();
-            if (current < 3.0) {
-                hood.setPosition(Hood.Position.MIDDLE);
-            } else if (current < 10.0) {
-                hood.setPosition(Hood.Position.UP);
-            } else {
-                hood.setPosition(Hood.Position.DOWN);
-            }
-        }, hood));
-
-        joystick.cross().onTrue(
-            Commands.run(() -> new AutoAlignCommand(shooter, turret, drivetrain))
-        );
     }
 
     private void configureAutos() {

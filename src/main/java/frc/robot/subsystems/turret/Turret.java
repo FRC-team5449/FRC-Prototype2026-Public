@@ -35,17 +35,17 @@ public class Turret extends SubsystemBase {
 
     @Override
     public void periodic() {
-        switch (goal) {
-            case STOP -> {
-                turretMotor.setControl(mPositionVoltage.withPosition(0));
-            }
-            case HUB -> {
-                turretMotor.setControl(mPositionVoltage.withPosition(turretSetpoint));
-            }
-            case ALLIANCE -> {
-                turretMotor.setControl(mPositionVoltage.withPosition(turretSetpoint));
-            }
-        }
+        // switch (goal) {
+        //     case STOP -> {
+        //         turretMotor.setControl(mPositionVoltage.withPosition(0));
+        //     }
+        //     case HUB -> {
+        //         turretMotor.setControl(mPositionVoltage.withPosition(turretSetpoint));
+        //     }
+        //     case ALLIANCE -> {
+        //         turretMotor.setControl(mPositionVoltage.withPosition(turretSetpoint));
+        //     }
+        // }
         Logger.recordOutput("turretSetpoint", turretSetpoint);
     }
 
