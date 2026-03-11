@@ -117,8 +117,7 @@ public class RobotContainer {
 
         joystick.R1().onTrue(Commands.run(() -> {
             shooter.setTarget(-60.0);
-            //shooter.setGoal(Shooter.Goal.HUB)
-            shooter.setGoal(Shooter.Goal.OPENLOOP);
+            shooter.setGoal(Shooter.Goal.HUB);
         }, shooter));
 
         joystick.R1().onFalse(Commands.run(() -> {
