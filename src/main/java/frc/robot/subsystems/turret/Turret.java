@@ -8,7 +8,6 @@ import com.ctre.phoenix6.hardware.TalonFX;
 import edu.wpi.first.math.MathUtil;
 import edu.wpi.first.math.geometry.Rotation2d;
 import edu.wpi.first.wpilibj2.command.SubsystemBase;
-import frc.robot.subsystems.intake.IntakeConstants;
 
 public class Turret extends SubsystemBase {
     private final TalonFX turretMotor;
@@ -20,7 +19,7 @@ public class Turret extends SubsystemBase {
         turretMotor = new TalonFX(TurretConstants.turretMotorCanId, TurretConstants.turretCanBus);
 
         turretMotor.getConfigurator().apply(TurretConstants.getConfigs());
-        goal = Goal.STOP;
+        setGoal(Goal.STOP);
     }
 
     public void setAngle(Rotation2d angleRotations) {
@@ -30,11 +29,11 @@ public class Turret extends SubsystemBase {
                     TurretConstants.MIN_ANGLE.getRadians(),
                     TurretConstants.MAX_ANGLE.getRadians()
             );
-        turretSetpoint = clamped * TurretConstants.gearRatio / 2 / Math.PI;
+        turretSetpoint = clamped / (2 * Math.PI);
     }
 
-    @Override
-    public void periodic() {
+    public void setGoal(Goal goal) {
+        this.goal = goal;
         switch (goal) {
             case STOP -> {
                 turretMotor.setControl(mPositionVoltage.withPosition(0));
