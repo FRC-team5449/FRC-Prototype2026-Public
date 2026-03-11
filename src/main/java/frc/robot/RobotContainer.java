@@ -58,6 +58,7 @@ public class RobotContainer {
     private final Telemetry logger = new Telemetry(MaxSpeed);
 
     private final CommandPS5Controller joystick = new CommandPS5Controller(0);
+    private final CommandPS5Controller copilot = new CommandPS5Controller(1);
 
     public final CommandSwerveDrivetrain drivetrain = TunerConstants.createDrivetrain();
 
@@ -158,12 +159,40 @@ public class RobotContainer {
         );
         
         // joystick.triangle().onTrue(climber.toggleCommand());
+
+        // --- Co-pilot bindings ---
+
+        // Turret preset angles
+        copilot.pov(0).onTrue(Commands.runOnce(() -> {
+            turret.setGoal(Turret.Goal.HUB);
+            turret.setAngle(new Rotation2d(0));
+        }, turret));
+
+        copilot.pov(270).onTrue(Commands.runOnce(() -> {
+            turret.setGoal(Turret.Goal.HUB);
+            turret.setAngle(new Rotation2d(Math.PI / 2));
+        }, turret));
+
+        copilot.pov(90).onTrue(Commands.runOnce(() -> {
+            turret.setGoal(Turret.Goal.HUB);
+            turret.setAngle(new Rotation2d(-Math.PI / 2));
+        }, turret));
+
+        copilot.pov(180).onTrue(Commands.runOnce(() -> {
+            turret.setGoal(Turret.Goal.HUB);
+            turret.setAngle(new Rotation2d(Math.PI));
+        }, turret));
+
+        // Hood preset positions
+        copilot.triangle().onTrue(Commands.runOnce(() -> hood.setPosition(Position.UP), hood));
+        copilot.square().onTrue(Commands.runOnce(() -> hood.setPosition(Position.MIDDLE), hood));
+        copilot.cross().onTrue(Commands.runOnce(() -> hood.setPosition(Position.DOWN), hood));
     }
 
     private void configureAutos() {
         autoChooser.setDefaultOption("Left", new LeftAuto(shooter, turret, index, hood, drivetrain, intake));
-        autoChooser.addOption("Right", new RightAuto(shooter, turret, index, hood, drivetrain /* , intake */));
-        autoChooser.addOption("Middle", new MiddleAuto(shooter, turret, index, hood, drivetrain));
+        autoChooser.addOption("Right", new RightAuto(shooter, turret, index, hood, drivetrain, intake));
+        autoChooser.addOption("Middle", new MiddleAuto(shooter, turret, index, hood, drivetrain, intake));
         SmartDashboard.putData("Auto Chooser", autoChooser);
     }
 

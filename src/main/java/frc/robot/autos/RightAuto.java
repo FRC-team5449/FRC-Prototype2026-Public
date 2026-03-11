@@ -3,6 +3,7 @@ package frc.robot.autos;
 import com.pathplanner.lib.auto.AutoBuilder;
 import com.pathplanner.lib.path.PathPlannerPath;
 
+import edu.wpi.first.math.geometry.Pose2d;
 import edu.wpi.first.wpilibj.DriverStation;
 import edu.wpi.first.wpilibj2.command.Commands;
 import edu.wpi.first.wpilibj2.command.SequentialCommandGroup;
@@ -19,18 +20,26 @@ import frc.robot.subsystems.turret.Turret;
 
 public class RightAuto extends SequentialCommandGroup {
     public RightAuto(Shooter shooter, Turret turret, Index index, Hood hood,
-                     CommandSwerveDrivetrain drivetrain /* , Intake intake */) {
+                     CommandSwerveDrivetrain drivetrain, Intake intake) {
         try {
+            PathPlannerPath path1 = PathPlannerPath.fromPathFile("BR_StartToIntake1");
+
             addCommands(
+                Commands.runOnce(() -> {
+                    Pose2d startPose = path1.getStartingHolonomicPose().orElse(new Pose2d());
+                    drivetrain.resetPose(startPose);
+                }),
+
+                Commands.run(() -> intake.setGoal(Intake.Goal.DEPLOY), intake),
                 // --- Start: turret lock → shoot → feed (preloaded) ---
                 // new AutoAlignCommand(turret, drivetrain).withTimeout(1.5),
                 // new ShootCommand(shooter, true).withTimeout(1.0),
                 // Commands.runOnce(() -> index.setState(IndexState.ACTIVE)),
-                // new WaitCommand(0.5),
+                new WaitCommand(0.5),
                 // Commands.runOnce(() -> index.setState(IndexState.STOP)),
 
-                // Commands.runOnce(() -> intake.setGoal(Intake.Goal.INTAKE)),
-                AutoBuilder.followPath(PathPlannerPath.fromPathFile("BR_StartToIntake1")),
+                Commands.runOnce(() -> intake.setGoal(Intake.Goal.INTAKE)),
+                AutoBuilder.followPath(path1),
 
                 // Commands.runOnce(() -> intake.setGoal(Intake.Goal.MIDDLE)),
                 AutoBuilder.followPath(PathPlannerPath.fromPathFile("BR_IntakeToShoot1")),
@@ -42,7 +51,7 @@ public class RightAuto extends SequentialCommandGroup {
                 // new WaitCommand(0.5),
                 // Commands.runOnce(() -> index.setState(IndexState.STOP)),
 
-                // Commands.runOnce(() -> intake.setGoal(Intake.Goal.INTAKE)),
+                Commands.runOnce(() -> intake.setGoal(Intake.Goal.INTAKE)),
                 AutoBuilder.followPath(PathPlannerPath.fromPathFile("BR_ShootToIntake2")),
 
                 // Commands.runOnce(() -> intake.setGoal(Intake.Goal.MIDDLE)),
