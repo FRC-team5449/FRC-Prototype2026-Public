@@ -33,7 +33,7 @@ public class RightAuto extends SequentialCommandGroup {
                 Commands.run(() -> intake.setGoal(Intake.Goal.DEPLOY), intake),
                 // --- Start: turret lock → shoot → feed (preloaded) ---
                 // new AutoAlignCommand(turret, drivetrain).withTimeout(1.5),
-                // new ShootCommand(shooter, true).withTimeout(1.0),
+                // new ShootCommand(shooter, hood, ShootCommand.SpeedLevel.HIGH).withTimeout(1.0),
                 // Commands.runOnce(() -> index.setState(IndexState.ACTIVE)),
                 new WaitCommand(0.5),
                 // Commands.runOnce(() -> index.setState(IndexState.STOP)),
@@ -46,7 +46,7 @@ public class RightAuto extends SequentialCommandGroup {
 
                 // --- Shoot1: turret lock → shoot → feed ---
                 // new AutoAlignCommand(turret, drivetrain).withTimeout(1.5),
-                // new ShootCommand(shooter, true).withTimeout(1.0),
+                // new ShootCommand(shooter, hood, ShootCommand.SpeedLevel.HIGH).withTimeout(1.0),
                 // Commands.runOnce(() -> index.setState(IndexState.ACTIVE)),
                 // new WaitCommand(0.5),
                 // Commands.runOnce(() -> index.setState(IndexState.STOP)),
@@ -59,7 +59,7 @@ public class RightAuto extends SequentialCommandGroup {
 
                 // --- Shoot2: turret lock → shoot → feed ---
                 // new AutoAlignCommand(turret, drivetrain).withTimeout(1.5),
-                // new ShootCommand(shooter, true).withTimeout(1.0),
+                // new ShootCommand(shooter, hood, ShootCommand.SpeedLevel.HIGH).withTimeout(1.0),
                 // Commands.runOnce(() -> index.setState(IndexState.ACTIVE)),
                 // new WaitCommand(0.5),
                 // Commands.runOnce(() -> index.setState(IndexState.STOP))

@@ -22,6 +22,7 @@ import frc.robot.autos.MiddleAuto;
 import frc.robot.autos.RightAuto;
 import frc.robot.commands.AutoAlignCommand;
 import frc.robot.commands.ShootCommand;
+import frc.robot.commands.ShootCommand.SpeedLevel;
 import frc.robot.commands.TransitCommand;
 import frc.robot.subsystems.drive.CommandSwerveDrivetrain;
 import frc.robot.subsystems.drive.TunerConstants;
@@ -128,18 +129,13 @@ public class RobotContainer {
             Commands.run(() -> intake.setGoal(Intake.Goal.RETRACT), intake)
         );
 
-        joystick.R2().whileTrue(new TransitCommand(intake, index));
+        joystick.L1().whileTrue(new ShootCommand(shooter, hood, SpeedLevel.LOW));
+        joystick.R1().whileTrue(new ShootCommand(shooter, hood, SpeedLevel.MEDIUM));
+        joystick.R2().whileTrue(new ShootCommand(shooter, hood, SpeedLevel.HIGH));
 
-        joystick.L1().whileTrue(new ShootCommand(shooter, false));
-        // joystick.L1().onFalse(Commands.run(() -> shooter.setTarget(0), shooter));
-
-        // joystick.R1().onTrue(Commands.run(() -> {
-        //     shooter.setTarget(-60.0);
-        //     shooter.setGoal(Shooter.Goal.HUB);
-        // }, shooter));
-
-        joystick.R1().whileTrue(new ShootCommand(shooter, true));
-        // joystick.R1().onFalse(Commands.run(() -> shooter.setTarget(0), shooter));
+        joystick.L2().and(joystick.L1()).whileTrue(new TransitCommand(intake, index));
+        joystick.L2().and(joystick.R1()).whileTrue(new TransitCommand(intake, index));
+        joystick.L2().and(joystick.R2()).whileTrue(new TransitCommand(intake, index));
 
         joystick.pov(0).onTrue(Commands.run(() -> hood.setPosition(Position.UP), hood));
 
