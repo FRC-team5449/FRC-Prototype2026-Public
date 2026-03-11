@@ -4,7 +4,7 @@ public class HoodConstants {
     public static final int kMotorCanId = 30;
 
     public static final double kMinPosition = 0.0;
-    public static final double kMidPosition = 6.6;
+    public static final double kMidPosition = 8.0;
     public static final double kMaxPosition = 13.0;
 
     public static final double kP = 0.1;

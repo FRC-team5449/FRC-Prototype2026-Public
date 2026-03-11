@@ -14,7 +14,7 @@ public class LaunchCalculator {
     }
 
     public static double calculateRPM(double distance, double velocityTowardTarget) {
-        return 1 + distance * 1 - velocityTowardTarget * 1;
+        return -8 + distance * -15.5 - velocityTowardTarget * 1;
 
     }
 }
