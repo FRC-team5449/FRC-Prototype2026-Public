@@ -127,6 +127,17 @@ public class RobotContainer {
         }, shooter));
         
         // joystick.triangle().onTrue(climber.toggleCommand());
+
+        joystick.square().onTrue(Commands.runOnce(() -> {
+            double current = hood.getPosition();
+            if (current < 3.0) {
+                hood.setPosition(Hood.Position.MIDDLE);
+            } else if (current < 10.0) {
+                hood.setPosition(Hood.Position.UP);
+            } else {
+                hood.setPosition(Hood.Position.DOWN);
+            }
+        }, hood));
     }
 
     private void configureAutos() {
