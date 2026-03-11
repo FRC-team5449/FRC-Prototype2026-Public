@@ -20,25 +20,20 @@ import edu.wpi.first.wpilibj.DriverStation;
 import edu.wpi.first.wpilibj.DriverStation.Alliance;
 
 public class AutoAlignCommand extends Command {
-
-    private final Shooter shooter;
+    private final Turret turret;
     private final CommandSwerveDrivetrain drivetrain;
-    private final Hood hood;
 
-    public AutoAlignCommand(Shooter shooter, CommandSwerveDrivetrain drivetrain, Hood hood) {
-        this.shooter = shooter;
-        // this.turret = turret;
+    public AutoAlignCommand(Turret turret, CommandSwerveDrivetrain drivetrain, Hood hood) {
+        this.turret = turret;
         this.drivetrain = drivetrain;
-        this.hood = hood;
 
         addRequirements(drivetrain);
-        addRequirements(shooter);
+        addRequirements(turret);
     }
 
     @Override
     public void initialize() {
-        shooter.setGoal(Goal.HUB);
-        hood.setPosition(Position.MIDDLE);
+
     }
 
     @Override
@@ -49,7 +44,7 @@ public class AutoAlignCommand extends Command {
         Translation2d target = DriverStation.getAlliance().get() == Alliance.Blue? 
             FieldConstants.Hub.blueTopCenterPoint: FieldConstants.Hub.redTopCenterPoint;
 
-        double distance = robotPose.getTranslation().getDistance(target);
+        // double distance = robotPose.getTranslation().getDistance(target);
 
 
         Rotation2d turretAngle = LaunchCalculator.calculateTurretAngle(robotPose, target);
@@ -57,9 +52,9 @@ public class AutoAlignCommand extends Command {
         Translation2d toTarget = target.minus(robotPose.getTranslation());
 
 
-        double rpm = LaunchCalculator.calculateRPM(distance);
+        // double rpm = LaunchCalculator.calculateRPM(distance);
 
-        // turret.setAngle(turretAngle);
+        turret.setAngle(turretAngle);
         // shooter.setTarget(rpm);
     }
 

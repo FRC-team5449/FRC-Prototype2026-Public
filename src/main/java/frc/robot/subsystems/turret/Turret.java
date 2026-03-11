@@ -34,6 +34,10 @@ public class Turret extends SubsystemBase {
 
     public void setGoal(Goal goal) {
         this.goal = goal;
+    }
+
+    @Override
+    public void periodic() {
         switch (goal) {
             case STOP -> {
                 turretMotor.setControl(mPositionVoltage.withPosition(0));
