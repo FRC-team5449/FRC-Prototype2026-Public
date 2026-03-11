@@ -109,9 +109,11 @@ public class RobotContainer {
 
         drivetrain.registerTelemetry(logger::telemeterize);
 
-        joystick.L2().onTrue(Commands.run(() -> intake.setGoal(Intake.Goal.INTAKE), intake));
-        joystick.L2().onFalse(Commands.run(() -> intake.setGoal(Intake.Goal.DEPLOY), intake));
-        joystick.R2().onTrue(Commands.run(() -> intake.setGoal(Intake.Goal.RETRACT), intake));
+        joystick.L2().whileTrue(
+            Commands.run(() -> intake.setGoal(Intake.Goal.MIDDLE), intake)
+                .finallyDo(() -> intake.setGoal(Intake.Goal.DEPLOY))
+        );
+        joystick.R2().onTrue(Commands.runOnce(() -> intake.setGoal(Intake.Goal.RETRACT), intake));
 
         joystick.L1().whileTrue(new TransitCommand(intake, index));
 

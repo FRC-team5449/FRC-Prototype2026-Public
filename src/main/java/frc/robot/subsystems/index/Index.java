@@ -13,7 +13,7 @@ public class Index extends SubsystemBase {
     private final DutyCycleOut dutyCycleOut = new DutyCycleOut(0);
 
     public enum IndexState {
-        ACTIVE(0.7),
+        ACTIVE(0.6),
         STOP(0.0),
         REVERSE(-0.3);
 
