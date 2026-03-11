@@ -51,17 +51,13 @@ public class AutoAlignCommand extends Command {
 
         double distance = robotPose.getTranslation().getDistance(target);
 
-        ChassisSpeeds speeds = drivetrain.getState().Speeds;
-        Translation2d lead = target.minus(new Translation2d(speeds.vxMetersPerSecond, speeds.vyMetersPerSecond).times(1));
 
-        Rotation2d turretAngle = LaunchCalculator.calculateTurretAngle(robotPose, lead);
+        Rotation2d turretAngle = LaunchCalculator.calculateTurretAngle(robotPose, target);
 
-        Translation2d robotVel = new Translation2d(speeds.vxMetersPerSecond, speeds.vyMetersPerSecond);
         Translation2d toTarget = target.minus(robotPose.getTranslation());
-        Translation2d direction = toTarget.div(toTarget.getNorm());
-        double velocityTowardTarget = robotVel.dot(direction);
 
-        double rpm = LaunchCalculator.calculateRPM(distance, velocityTowardTarget);
+
+        double rpm = LaunchCalculator.calculateRPM(distance);
 
         // turret.setAngle(turretAngle);
         // shooter.setTarget(rpm);

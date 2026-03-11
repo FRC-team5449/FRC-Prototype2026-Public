@@ -13,8 +13,8 @@ public class LaunchCalculator {
         return new Rotation2d(diff.getX(), diff.getY());
     }
 
-    public static double calculateRPM(double distance, double velocityTowardTarget) {
-        return -8 + distance * -15.5 - velocityTowardTarget * 1;
+    public static double calculateRPM(double distance) {
+        return -8 + distance * -15.5;
 
     }
 }
