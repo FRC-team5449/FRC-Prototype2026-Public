@@ -17,19 +17,37 @@ public class Turret extends SubsystemBase {
 
     public Turret() {
         turretMotor = new TalonFX(TurretConstants.turretMotorCanId, TurretConstants.turretCanBus);
-
         turretMotor.getConfigurator().apply(TurretConstants.getConfigs());
         setGoal(Goal.STOP);
     }
 
-    public void setAngle(Rotation2d angleRotations) {
-        double clamped =
-            MathUtil.clamp(
-                    angleRotations.getRadians(),
-                    TurretConstants.MIN_ANGLE.getRadians(),
-                    TurretConstants.MAX_ANGLE.getRadians()
-            );
-        turretSetpoint = clamped / (2 * Math.PI);
+    /**
+     * Set the turret target angle in robot-relative coordinates.
+     * Ported from FTC Turret.setTurret() + periodic() wrapping logic:
+     * - Normalize angle to [-PI, PI]
+     * - If target crosses the +/-180 boundary relative to current position,
+     *   add or subtract 360 to take the shorter path and avoid hitting limits.
+     * - Clamp final angle to [MIN_ANGLE, MAX_ANGLE].
+     */
+    public void setAngle(Rotation2d angle) {
+        double targetRad = normalizeAngle(angle.getRadians());
+        double currentRad = turretSetpoint * 2 * Math.PI;
+
+        if (Math.abs(targetRad - currentRad) > Math.PI) {
+            if (targetRad < currentRad) {
+                targetRad += 2 * Math.PI;
+            } else {
+                targetRad -= 2 * Math.PI;
+            }
+        }
+
+        targetRad = MathUtil.clamp(
+            targetRad,
+            TurretConstants.MIN_ANGLE.getRadians(),
+            TurretConstants.MAX_ANGLE.getRadians()
+        );
+
+        turretSetpoint = targetRad / (2 * Math.PI);
     }
 
     public void setGoal(Goal goal) {
@@ -42,14 +60,27 @@ public class Turret extends SubsystemBase {
             case STOP -> {
                 turretMotor.setControl(mPositionVoltage.withPosition(0));
             }
-            case HUB -> {
-                turretMotor.setControl(mPositionVoltage.withPosition(turretSetpoint));
-            }
-            case ALLIANCE -> {
+            case HUB, ALLIANCE -> {
                 turretMotor.setControl(mPositionVoltage.withPosition(turretSetpoint));
             }
         }
-        Logger.recordOutput("turretSetpoint", turretSetpoint);
+        Logger.recordOutput("Turret/SetpointRot", turretSetpoint);
+        Logger.recordOutput("Turret/SetpointDeg", turretSetpoint * 360.0);
+        Logger.recordOutput("Turret/PositionRot", turretMotor.getPosition().getValueAsDouble());
+        Logger.recordOutput("Turret/PositionDeg", turretMotor.getPosition().getValueAsDouble() * 360.0);
+        Logger.recordOutput("Turret/ErrorDeg", (turretSetpoint - turretMotor.getPosition().getValueAsDouble()) * 360.0);
+        Logger.recordOutput("Turret/Velocity", turretMotor.getVelocity().getValueAsDouble());
+        Logger.recordOutput("Turret/Current", turretMotor.getStatorCurrent().getValueAsDouble());
+        Logger.recordOutput("Turret/Goal", goal.name());
+    }
+
+    /**
+     * Normalize angle to [-PI, PI]. Ported from FTC Util.adjustRange().
+     */
+    private static double normalizeAngle(double rad) {
+        while (rad > Math.PI) rad -= 2 * Math.PI;
+        while (rad < -Math.PI) rad += 2 * Math.PI;
+        return rad;
     }
 
     public enum Goal {

@@ -18,7 +18,7 @@ public class ShooterConstants {
         config.Slot0.kS = 0.1;
         config.MotionMagic.MotionMagicCruiseVelocity = 80;   // rps
         config.MotionMagic.MotionMagicAcceleration = 160;     // rps/s 
-        config.MotionMagic.MotionMagicJerk = 1600;            // rps/s/s，可选
+        config.MotionMagic.MotionMagicJerk = 1600;            // rps/s/s, optional
 
         return config;
     }

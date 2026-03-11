@@ -9,8 +9,8 @@ public class TurretConstants {
     public static CANBus turretCanBus = new CANBus("rio");
     public static int turretMotorCanId = 24;
 
-    public static Rotation2d MIN_ANGLE = new Rotation2d(Math.toRadians(-175));
-    public static Rotation2d MAX_ANGLE = new Rotation2d(Math.toRadians(175));
+    public static Rotation2d MIN_ANGLE = new Rotation2d(Math.toRadians(-185));
+    public static Rotation2d MAX_ANGLE = new Rotation2d(Math.toRadians(185));
     public static final double gearRatio = 43.0555555555;
 
     public static TalonFXConfiguration config = new TalonFXConfiguration();
@@ -25,7 +25,7 @@ public class TurretConstants {
         config.Feedback.SensorToMechanismRatio = gearRatio;
         // config.MotionMagic.MotionMagicCruiseVelocity = 80;   // rps
         // config.MotionMagic.MotionMagicAcceleration = 160;     // rps/s 
-        // config.MotionMagic.MotionMagicJerk = 1600;            // rps/s/s，可选
+        // config.MotionMagic.MotionMagicJerk = 1600;            // rps/s/s, optional
 
         return config;
     }

@@ -22,8 +22,8 @@ public class LeftAuto extends SequentialCommandGroup {
                     CommandSwerveDrivetrain drivetrain /* , Intake intake */) {
         try {
             addCommands(
-                // --- 起始点：自动瞄准 + 射击（预装球）---
-                // new AutoAlignCommand(turret, drivetrain, hood).withTimeout(1.5),
+                // --- Start: turret lock → shoot → feed (preloaded) ---
+                // new AutoAlignCommand(turret, drivetrain).withTimeout(1.5),
                 // new ShootCommand(shooter, true).withTimeout(1.0),
                 // Commands.runOnce(() -> index.setState(IndexState.ACTIVE)),
                 // new WaitCommand(0.5),
@@ -35,8 +35,8 @@ public class LeftAuto extends SequentialCommandGroup {
                 // Commands.runOnce(() -> intake.setGoal(Intake.Goal.MIDDLE)),
                 AutoBuilder.followPath(PathPlannerPath.fromPathFile("BL_IntakeToShoot1")),
 
-                // --- Shoot1：自动瞄准 + 射击 ---
-                // new AutoAlignCommand(turret, drivetrain, hood).withTimeout(1.5),
+                // --- Shoot1: turret lock → shoot → feed ---
+                // new AutoAlignCommand(turret, drivetrain).withTimeout(1.5),
                 // new ShootCommand(shooter, true).withTimeout(1.0),
                 // Commands.runOnce(() -> index.setState(IndexState.ACTIVE)),
                 // new WaitCommand(0.5),
@@ -48,8 +48,8 @@ public class LeftAuto extends SequentialCommandGroup {
                 // Commands.runOnce(() -> intake.setGoal(Intake.Goal.MIDDLE)),
                 AutoBuilder.followPath(PathPlannerPath.fromPathFile("BL_IntakeToShoot2"))
 
-                // --- Shoot2：自动瞄准 + 射击 ---
-                // new AutoAlignCommand(turret, drivetrain, hood).withTimeout(1.5),
+                // --- Shoot2: turret lock → shoot → feed ---
+                // new AutoAlignCommand(turret, drivetrain).withTimeout(1.5),
                 // new ShootCommand(shooter, true).withTimeout(1.0),
                 // Commands.runOnce(() -> index.setState(IndexState.ACTIVE)),
                 // new WaitCommand(0.5),

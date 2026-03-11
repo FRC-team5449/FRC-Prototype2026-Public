@@ -73,6 +73,8 @@ public class RobotContainer {
 
         drivetrain.setVisionSubsystem(vision);
 
+        turret.setDefaultCommand(new AutoAlignCommand(turret, drivetrain));
+
         configureBindings();
         configureAutos();
     }

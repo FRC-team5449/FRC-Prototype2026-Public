@@ -21,8 +21,8 @@ public class MiddleAuto extends SequentialCommandGroup {
                       CommandSwerveDrivetrain drivetrain) {
         try {
             addCommands(
-                // --- 起始点：自动瞄准 + 射击（预装球）---
-                // new AutoAlignCommand(turret, drivetrain, hood).withTimeout(1.5),
+                // --- Start: turret lock → shoot → feed (preloaded) ---
+                // new AutoAlignCommand(turret, drivetrain).withTimeout(1.5),
                 // new ShootCommand(shooter, true).withTimeout(1.0),
                 // Commands.runOnce(() -> index.setState(IndexState.ACTIVE)),
                 // new WaitCommand(0.5),
@@ -30,8 +30,8 @@ public class MiddleAuto extends SequentialCommandGroup {
 
                 AutoBuilder.followPath(PathPlannerPath.fromPathFile("BM_StartToFinish"))
 
-                // --- 终点：自动瞄准 + 射击 ---
-                // new AutoAlignCommand(turret, drivetrain, hood).withTimeout(1.5),
+                // --- End: turret lock → shoot → feed ---
+                // new AutoAlignCommand(turret, drivetrain).withTimeout(1.5),
                 // new ShootCommand(shooter, true).withTimeout(1.0),
                 // Commands.runOnce(() -> index.setState(IndexState.ACTIVE)),
                 // new WaitCommand(0.5),
