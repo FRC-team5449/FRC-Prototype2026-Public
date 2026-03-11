@@ -10,16 +10,18 @@ import frc.robot.subsystems.turret.Turret;
 import frc.robot.util.LaunchCalculator;
 import edu.wpi.first.math.geometry.*;
 import edu.wpi.first.math.kinematics.ChassisSpeeds;
+import edu.wpi.first.wpilibj.DriverStation;
+import edu.wpi.first.wpilibj.DriverStation.Alliance;
 
 public class AutoAlignCommand extends Command {
 
-    // private final Shooter shooter;
-    // private final Turret turret;
+    private final Shooter shooter;
+    private final Turret turret;
     private final CommandSwerveDrivetrain drivetrain;
 
-    public AutoAlignCommand(CommandSwerveDrivetrain drivetrain) {
-        // this.shooter = shooter;
-        // this.turret = turret;
+    public AutoAlignCommand(Shooter shooter, Turret turret, CommandSwerveDrivetrain drivetrain) {
+        this.shooter = shooter;
+        this.turret = turret;
         this.drivetrain = drivetrain;
 
         addRequirements(drivetrain);
@@ -30,7 +32,8 @@ public class AutoAlignCommand extends Command {
 
         Pose2d robotPose = drivetrain.getState().Pose;
 
-        Translation2d target = FieldConstants.Hub.topCenterPoint;
+        Translation2d target = DriverStation.getAlliance().get() == Alliance.Blue? 
+            FieldConstants.Hub.blueTopCenterPoint: FieldConstants.Hub.redTopCenterPoint;
 
         double distance = robotPose.getTranslation().getDistance(target);
 
@@ -46,8 +49,8 @@ public class AutoAlignCommand extends Command {
 
         double rpm = LaunchCalculator.calculateRPM(distance, velocityTowardTarget);
 
-        // turret.setAngle(turretAngle);
-        // shooter.setTarget(rpm);
+        turret.setAngle(turretAngle);
+        shooter.setTarget(rpm);
     }
 
     @Override

@@ -27,6 +27,7 @@ import frc.robot.subsystems.index.Index;
 import frc.robot.subsystems.index.Index.IndexState;
 import frc.robot.subsystems.intake.Intake;
 import frc.robot.subsystems.shooter.Shooter;
+import frc.robot.subsystems.turret.Turret;
 import frc.robot.subsystems.vision.VisionSubsystem;
 import frc.robot.subsystems.climber.Climber;
 import frc.robot.subsystems.hood.Hood;
@@ -36,6 +37,7 @@ public class RobotContainer {
     private final Climber climber;
     private final Index index;
     private final Shooter shooter;
+    private final Turret turret;
     private final Hood hood;
 
     private final SendableChooser<Command> autoChooser = new SendableChooser<>();
@@ -64,6 +66,7 @@ public class RobotContainer {
         climber = new Climber();
         index = new Index();
         shooter = new Shooter();
+        turret = new Turret();
         hood = new Hood();
         vision = new VisionSubsystem("limelight");
 
@@ -139,6 +142,10 @@ public class RobotContainer {
                 hood.setPosition(Hood.Position.DOWN);
             }
         }, hood));
+
+        joystick.cross().onTrue(
+            Commands.run(() -> new AutoAlignCommand(shooter, turret, drivetrain))
+        );
     }
 
     private void configureAutos() {

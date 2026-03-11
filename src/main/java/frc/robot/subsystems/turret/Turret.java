@@ -1,5 +1,7 @@
 package frc.robot.subsystems.turret;
 
+import org.littletonrobotics.junction.Logger;
+
 import com.ctre.phoenix6.configs.TorqueCurrentConfigs;
 import com.ctre.phoenix6.controls.Follower;
 import com.ctre.phoenix6.controls.PositionTorqueCurrentFOC;
@@ -14,10 +16,13 @@ import frc.robot.subsystems.shooter.ShooterConstants;
 
 public class Turret extends SubsystemBase {
     private final TalonFX turretMotor;
+    private Goal goal;
+    private double turretSetpoint;
     private PositionTorqueCurrentFOC mTorqueCurrentConfigs = new PositionTorqueCurrentFOC(0);
 
     public Turret() {
         turretMotor = new TalonFX(TurretConstants.turretMotorCanId, TurretConstants.turretCanBus);
+        goal = Goal.STOP;
     }
 
     public void setAngle(Rotation2d angleRotations) {
@@ -27,10 +32,28 @@ public class Turret extends SubsystemBase {
                     TurretConstants.MIN_ANGLE.getRadians(),
                     TurretConstants.MAX_ANGLE.getRadians()
             );
-        turretMotor.setControl(mTorqueCurrentConfigs.withPosition(angleRotations.getRotations()));
+        turretSetpoint = clamped * TurretConstants.gearRatio / 2 / Math.PI;
     }
 
     @Override
     public void periodic() {
+        switch (goal) {
+            case STOP -> {
+                turretMotor.setControl(mTorqueCurrentConfigs.withPosition(0));
+            }
+            case HUB -> {
+                turretMotor.setControl(mTorqueCurrentConfigs.withPosition(turretSetpoint));
+            }
+            case ALLIANCE -> {
+                turretMotor.setControl(mTorqueCurrentConfigs.withPosition(turretSetpoint));
+            }
+        }
+        Logger.recordOutput("turretSetpoint", turretSetpoint);
+    }
+
+    public enum Goal {
+        STOP,
+        HUB,
+        ALLIANCE;
     }
 }

@@ -13,9 +13,11 @@ public class FieldConstants {
     public class Hub {
         public static final double width = Units.inchesToMeters(47.0);
         public static final double height = Units.inchesToMeters(72);
-        public static final Translation2d topCenterPoint = new Translation2d(
+        public static final Translation2d blueTopCenterPoint = new Translation2d(
             field.getTagPose(26).get().getX() + width / 2.0,
             fieldWidth / 2.0);
-        
+        public static final Translation2d redTopCenterPoint = new Translation2d(
+            field.getTagPose(10).get().getX() - width / 2.0,
+            fieldWidth / 2.0);
     }
 }

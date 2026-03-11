@@ -284,7 +284,7 @@ public class CommandSwerveDrivetrain extends TunerSwerveDrivetrain implements Su
             addVisionMeasurement(visionSubsystem.getLatestPose(), visionSubsystem.getLatestTimestamp());
         }
 
-         Translation2d target = FieldConstants.Hub.topCenterPoint;
+         Translation2d target = FieldConstants.Hub.blueTopCenterPoint;
 
         double distance = this.getState().Pose.getTranslation().getDistance(target);
         Logger.recordOutput("AutoAlign/DistanceToTarget", distance);
