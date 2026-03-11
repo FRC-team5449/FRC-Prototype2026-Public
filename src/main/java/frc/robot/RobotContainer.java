@@ -9,6 +9,7 @@ import static edu.wpi.first.units.Units.*;
 import com.ctre.phoenix6.swerve.SwerveModule.DriveRequestType;
 import com.ctre.phoenix6.swerve.SwerveRequest;
 
+import edu.wpi.first.math.geometry.Rotation2d;
 import edu.wpi.first.wpilibj.smartdashboard.SendableChooser;
 import edu.wpi.first.wpilibj.smartdashboard.SmartDashboard;
 import edu.wpi.first.wpilibj2.command.Command;
@@ -71,9 +72,9 @@ public class RobotContainer {
         hood = new Hood();
         vision = new VisionSubsystem("limelight");
 
-        drivetrain.setVisionSubsystem(vision);
+        // drivetrain.setVisionSubsystem(vision);
 
-        turret.setDefaultCommand(new AutoAlignCommand(turret, drivetrain));
+        // turret.setDefaultCommand(new AutoAlignCommand(turret, drivetrain));
 
         configureBindings();
         configureAutos();
@@ -115,13 +116,21 @@ public class RobotContainer {
 
         drivetrain.registerTelemetry(logger::telemeterize);
 
-        joystick.L2().whileTrue(
-            Commands.run(() -> intake.setGoal(Intake.Goal.MIDDLE), intake)
-                .finallyDo(() -> intake.setGoal(Intake.Goal.DEPLOY))
+        joystick.L2().onTrue(
+            Commands.run(() -> intake.setGoal(Intake.Goal.INTAKE), intake)
         );
+        joystick.L2().onFalse(
+            Commands.run(() -> intake.setGoal(Intake.Goal.DEPLOY), intake)
+        );
+
+        joystick.cross().onTrue(
+            Commands.run(() -> intake.setGoal(Intake.Goal.RETRACT), intake)
+        );
+
         joystick.R2().whileTrue(new TransitCommand(intake, index));
 
         joystick.L1().whileTrue(new ShootCommand(shooter, false));
+        // joystick.L1().onFalse(Commands.run(() -> shooter.setTarget(0), shooter));
 
         // joystick.R1().onTrue(Commands.run(() -> {
         //     shooter.setTarget(-60.0);
@@ -129,16 +138,30 @@ public class RobotContainer {
         // }, shooter));
 
         joystick.R1().whileTrue(new ShootCommand(shooter, true));
+        // joystick.R1().onFalse(Commands.run(() -> shooter.setTarget(0), shooter));
 
-        joystick.pov(0).onTrue(Commands.run(() -> hood.setPosition(Position.UP)));
+        joystick.pov(0).onTrue(Commands.run(() -> hood.setPosition(Position.UP), hood));
 
-        joystick.pov(180).onTrue(Commands.run(() -> hood.setPosition(Position.MIDDLE)));
+        joystick.pov(180).onTrue(Commands.run(() -> hood.setPosition(Position.MIDDLE), hood));
+
+        joystick.square().onTrue(
+            Commands.sequence(
+                Commands.run(() -> turret.setGoal(Turret.Goal.HUB), turret),
+                Commands.run(() -> turret.setAngle(new Rotation2d(Math.PI / 2)))
+            )
+        );
+
+        joystick.square().onFalse(
+
+                Commands.run(() -> turret.setGoal(Turret.Goal.STOP), turret)
+      
+        );
         
         // joystick.triangle().onTrue(climber.toggleCommand());
     }
 
     private void configureAutos() {
-        autoChooser.setDefaultOption("Left", new LeftAuto(shooter, turret, index, hood, drivetrain /* , intake */));
+        autoChooser.setDefaultOption("Left", new LeftAuto(shooter, turret, index, hood, drivetrain, intake));
         autoChooser.addOption("Right", new RightAuto(shooter, turret, index, hood, drivetrain /* , intake */));
         autoChooser.addOption("Middle", new MiddleAuto(shooter, turret, index, hood, drivetrain));
         SmartDashboard.putData("Auto Chooser", autoChooser);

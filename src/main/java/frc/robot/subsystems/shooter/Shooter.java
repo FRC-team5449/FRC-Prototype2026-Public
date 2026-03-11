@@ -36,7 +36,7 @@ public class Shooter extends SubsystemBase {
         velocityVoltage = new VelocityVoltage(0).withSlot(0);
         leftShooterMotor.getConfigurator().apply(ShooterConstants.getConfigs());
         rightShooterMotor.getConfigurator().apply(ShooterConstants.getConfigs());
-        goal = Goal.OPENLOOP;
+        goal = Goal.HUB;
 
         openLoopPower = 0;
     }

@@ -24,8 +24,8 @@ public class VisionSubsystem extends SubsystemBase {
     public void periodic() {
         hasNewResult = false;
 
-        long tvRaw = table.getEntry("tv").getInteger(0);
-        boolean hasTarget = tvRaw == 1;
+        double tvRaw = table.getEntry("tv").getDouble(0.0);
+        boolean hasTarget = tvRaw == 1.0;
         Logger.recordOutput("Vision/tv_raw", tvRaw);
         Logger.recordOutput("Vision/HasTarget", hasTarget);
 

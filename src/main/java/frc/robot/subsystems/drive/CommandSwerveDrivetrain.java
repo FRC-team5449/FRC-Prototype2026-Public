@@ -284,17 +284,8 @@ public class CommandSwerveDrivetrain extends TunerSwerveDrivetrain implements Su
             addVisionMeasurement(visionSubsystem.getLatestPose(), visionSubsystem.getLatestTimestamp());
         }
 
-          Translation2d target = DriverStation.getAlliance().get() == Alliance.Blue? 
-            FieldConstants.Hub.blueTopCenterPoint: FieldConstants.Hub.redTopCenterPoint;
-
-
-        double distance = this.getState().Pose.getTranslation().getDistance(target);
-        Logger.recordOutput("AutoAlign/DistanceToTarget", distance);
-
         Logger.recordOutput("AutoAlign/robot_x", this.getState().Pose.getX());
         Logger.recordOutput("AutoAlign/robot_y", this.getState().Pose.getY());
-
-        Logger.recordOutput("AutoAlign/driveralliance", DriverStation.getAlliance().get().toString());
     }
 
     private void startSimThread() {

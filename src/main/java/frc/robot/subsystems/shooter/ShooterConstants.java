@@ -11,7 +11,7 @@ public class ShooterConstants {
     public static TalonFXConfiguration config = new TalonFXConfiguration();
 
     public static TalonFXConfiguration getConfigs() {
-        config.Slot0.kP = 0.4;
+        config.Slot0.kP = 0.2;
         config.Slot0.kI = 0.0;
         config.Slot0.kD = 0.01;
         config.Slot0.kV = 0.12;

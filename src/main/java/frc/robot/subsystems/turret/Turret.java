@@ -47,7 +47,7 @@ public class Turret extends SubsystemBase {
             TurretConstants.MAX_ANGLE.getRadians()
         );
 
-        turretSetpoint = targetRad / (2 * Math.PI);
+        turretSetpoint = -targetRad / (2 * Math.PI);
     }
 
     public void setGoal(Goal goal) {

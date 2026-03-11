@@ -2,8 +2,11 @@ package frc.robot.autos;
 
 import com.pathplanner.lib.auto.AutoBuilder;
 import com.pathplanner.lib.path.PathPlannerPath;
+import com.pathplanner.lib.util.FlippingUtil;
 
+import edu.wpi.first.math.geometry.Pose2d;
 import edu.wpi.first.wpilibj.DriverStation;
+import edu.wpi.first.wpilibj.DriverStation.Alliance;
 import edu.wpi.first.wpilibj2.command.Commands;
 import edu.wpi.first.wpilibj2.command.SequentialCommandGroup;
 import edu.wpi.first.wpilibj2.command.WaitCommand;
@@ -18,22 +21,35 @@ import frc.robot.subsystems.shooter.Shooter;
 import frc.robot.subsystems.turret.Turret;
 
 public class LeftAuto extends SequentialCommandGroup {
+
     public LeftAuto(Shooter shooter, Turret turret, Index index, Hood hood,
-                    CommandSwerveDrivetrain drivetrain /* , Intake intake */) {
+                    CommandSwerveDrivetrain drivetrain, Intake intake) {
         try {
+            PathPlannerPath path1 = PathPlannerPath.fromPathFile("BL_StartToIntake1");
+
             addCommands(
+                Commands.runOnce(() -> {
+                    Pose2d startPose = path1.getStartingHolonomicPose().orElse(new Pose2d());
+                    // if (DriverStation.getAlliance().orElse(Alliance.Blue) == Alliance.Red) {
+                    //     startPose = FlippingUtil.flipFieldPose(startPose);
+                    // }
+                    drivetrain.resetPose(startPose);
+                }),
+
+                Commands.run(() -> intake.setGoal(Intake.Goal.DEPLOY), intake),
                 // --- Start: turret lock → shoot → feed (preloaded) ---
                 // new AutoAlignCommand(turret, drivetrain).withTimeout(1.5),
                 // new ShootCommand(shooter, true).withTimeout(1.0),
                 // Commands.runOnce(() -> index.setState(IndexState.ACTIVE)),
-                // new WaitCommand(0.5),
+                new WaitCommand(0.5),
                 // Commands.runOnce(() -> index.setState(IndexState.STOP)),
 
-                // Commands.runOnce(() -> intake.setGoal(Intake.Goal.INTAKE)),
-                AutoBuilder.followPath(PathPlannerPath.fromPathFile("BL_StartToIntake1")),
+                Commands.runOnce(() -> intake.setGoal(Intake.Goal.INTAKE)),
+                AutoBuilder.followPath(path1)
+                
 
                 // Commands.runOnce(() -> intake.setGoal(Intake.Goal.MIDDLE)),
-                AutoBuilder.followPath(PathPlannerPath.fromPathFile("BL_IntakeToShoot1")),
+                //----------//AutoBuilder.followPath(PathPlannerPath.fromPathFile("BL_IntakeToShoot1")),
 
                 // --- Shoot1: turret lock → shoot → feed ---
                 // new AutoAlignCommand(turret, drivetrain).withTimeout(1.5),
@@ -43,10 +59,10 @@ public class LeftAuto extends SequentialCommandGroup {
                 // Commands.runOnce(() -> index.setState(IndexState.STOP)),
 
                 // Commands.runOnce(() -> intake.setGoal(Intake.Goal.INTAKE)),
-                AutoBuilder.followPath(PathPlannerPath.fromPathFile("BL_ShootToIntake2")),
+                //----------//AutoBuilder.followPath(PathPlannerPath.fromPathFile("BL_ShootToIntake2")),
 
                 // Commands.runOnce(() -> intake.setGoal(Intake.Goal.MIDDLE)),
-                AutoBuilder.followPath(PathPlannerPath.fromPathFile("BL_IntakeToShoot2"))
+                //----------//AutoBuilder.followPath(PathPlannerPath.fromPathFile("BL_IntakeToShoot2"))
 
                 // --- Shoot2: turret lock → shoot → feed ---
                 // new AutoAlignCommand(turret, drivetrain).withTimeout(1.5),

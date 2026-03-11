@@ -15,17 +15,17 @@ public class ShootCommand extends Command {
 
     @Override
     public void initialize() {
-        shooter.setGoal(Goal.OPENLOOP);
+        shooter.setGoal(Goal.HUB);
     }
 
     @Override
     public void execute() {
-        if (highSpeed) shooter.setOpenLoopPower(-0.8);
-        else shooter.setOpenLoopPower(-0.5);
+        if (highSpeed) shooter.setTarget(-80);
+        else shooter.setTarget(-60);
     }
     
     @Override
     public void end(boolean interrupted) {
-        shooter.setOpenLoopPower(0);
+        shooter.setTarget(0);
     }
 }

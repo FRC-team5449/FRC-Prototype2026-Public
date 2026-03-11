@@ -33,20 +33,20 @@ public class TransitCommand extends Command {
 
     @Override
     public void execute() {
-        // double now = Timer.getFPGATimestamp();
+        double now = Timer.getFPGATimestamp();
 
-        // if (now - lastTime >= 1) {
-        //     if (onMiddle) {
-        //         intake.setGoal(Goal.DEPLOY);
-        //         onMiddle = false;
-        //     }
-        //     else {
-        //         intake.setGoal(Goal.MIDDLE);
-        //         onMiddle = true;
-        //     }
+        if (now - lastTime >= 1.0) {
+            if (onMiddle) {
+                intake.setGoal(Goal.DEPLOY);
+                onMiddle = false;
+            }
+            else {
+                intake.setGoal(Goal.MIDDLE);
+                onMiddle = true;
+            }
 
-        //     lastTime = now;
-        // }
+            lastTime = now;
+        }
     }
 
     @Override
