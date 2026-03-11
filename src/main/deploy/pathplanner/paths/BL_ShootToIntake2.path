@@ -3,13 +3,13 @@
   "waypoints": [
     {
       "anchor": {
-        "x": 3.4696482168079097,
-        "y": 7.37208835407839
+        "x": 3.47,
+        "y": 7.372
       },
       "prevControl": null,
       "nextControl": {
-        "x": 5.588213276832378,
-        "y": 7.569748190320684
+        "x": 5.588565060024468,
+        "y": 7.569659836242294
       },
       "isLocked": false,
       "linkedName": "BLShoot"
@@ -57,7 +57,7 @@
   "folder": null,
   "idealStartingState": {
     "velocity": 0,
-    "rotation": 0.0
+    "rotation": -70.7
   },
   "useDefaultConstraints": true
 }
