@@ -9,7 +9,7 @@
       "prevControl": null,
       "nextControl": {
         "x": 5.588213276832378,
-        "y": 0.446352
+        "y": 0.44635199999999997
       },
       "isLocked": false,
       "linkedName": "BRShoot"
@@ -21,7 +21,7 @@
       },
       "prevControl": {
         "x": 6.907429378527292,
-        "y": 0.396175
+        "y": 0.39617499999999994
       },
       "nextControl": null,
       "isLocked": false,
@@ -54,10 +54,10 @@
     "rotation": 89.569781
   },
   "reversed": false,
-  "folder": "Blue Right",
+  "folder": "BR",
   "idealStartingState": {
     "velocity": 0,
-    "rotation": 70.7
+    "rotation": 0.0
   },
   "useDefaultConstraints": true
 }

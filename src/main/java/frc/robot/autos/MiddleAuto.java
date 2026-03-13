@@ -12,6 +12,7 @@ import edu.wpi.first.math.geometry.Pose2d;
 import edu.wpi.first.math.geometry.Rotation2d;
 import edu.wpi.first.wpilibj2.command.Commands;
 import edu.wpi.first.wpilibj2.command.SequentialCommandGroup;
+import edu.wpi.first.wpilibj2.command.WaitCommand;
 import frc.robot.commands.ShootCommand;
 import frc.robot.commands.ShootCommand.SpeedLevel;
 import frc.robot.subsystems.drive.CommandSwerveDrivetrain;
@@ -44,6 +45,7 @@ public class MiddleAuto extends SequentialCommandGroup {
         Pose2d startPose = new Pose2d(2.0, 4.0, robotHeading);
 
         addCommands(
+            Commands.runOnce(() -> drivetrain.resetPose(startPose)),
             AutoBuilder.followPath(path),
             Commands.runOnce(() -> intake.setGoal(Intake.Goal.DEPLOY), intake),
             Commands.runOnce(() -> index.setIndexState(IndexState.ACTIVE), index),
@@ -51,10 +53,9 @@ public class MiddleAuto extends SequentialCommandGroup {
                 turret.setGoal(Turret.Goal.HUB);
                 turret.setAngle(new Rotation2d(Math.PI / 2));
             }, turret),
-            // followPath,
-            new ShootCommand(shooter, hood, SpeedLevel.LOW).withTimeout(20.0),
-            Commands.runOnce(() -> index.setIndexState(IndexState.STOP), index),
-            Commands.runOnce(() -> drivetrain.resetPose(startPose))
+            new ShootCommand(shooter, hood, SpeedLevel.LOW).withTimeout(15.0),
+            new WaitCommand(2),
+            Commands.runOnce(() -> index.setIndexState(IndexState.STOP), index)
         );
     }
 }

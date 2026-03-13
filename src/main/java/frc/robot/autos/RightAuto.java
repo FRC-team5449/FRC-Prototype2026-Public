@@ -2,14 +2,18 @@ package frc.robot.autos;
 
 import com.pathplanner.lib.auto.AutoBuilder;
 import com.pathplanner.lib.path.PathPlannerPath;
+import com.pathplanner.lib.util.FlippingUtil;
 
 import edu.wpi.first.math.geometry.Pose2d;
+import edu.wpi.first.math.geometry.Rotation2d;
 import edu.wpi.first.wpilibj.DriverStation;
+import edu.wpi.first.wpilibj.DriverStation.Alliance;
 import edu.wpi.first.wpilibj2.command.Commands;
 import edu.wpi.first.wpilibj2.command.SequentialCommandGroup;
 import edu.wpi.first.wpilibj2.command.WaitCommand;
 import frc.robot.commands.AutoAlignCommand;
 import frc.robot.commands.ShootCommand;
+import frc.robot.commands.TransitCommand;
 import frc.robot.subsystems.drive.CommandSwerveDrivetrain;
 import frc.robot.subsystems.hood.Hood;
 import frc.robot.subsystems.index.Index;
@@ -19,54 +23,42 @@ import frc.robot.subsystems.shooter.Shooter;
 import frc.robot.subsystems.turret.Turret;
 
 public class RightAuto extends SequentialCommandGroup {
+
     public RightAuto(Shooter shooter, Turret turret, Index index, Hood hood,
-                     CommandSwerveDrivetrain drivetrain, Intake intake) {
+                    CommandSwerveDrivetrain drivetrain, Intake intake) {
         try {
-            PathPlannerPath path1 = PathPlannerPath.fromPathFile("BR_StartToIntake1");
+            PathPlannerPath path1 = PathPlannerPath.fromPathFile("BR/BR_StartToIntake1");
+
+            path1.preventFlipping = true;
 
             addCommands(
                 Commands.runOnce(() -> {
-                    Pose2d startPose = path1.getStartingHolonomicPose().orElse(new Pose2d());
+                    Pose2d startPose = path1.getStartingHolonomicPose().get();
                     drivetrain.resetPose(startPose);
                 }),
-
                 Commands.run(() -> intake.setGoal(Intake.Goal.DEPLOY), intake),
-                // --- Start: turret lock → shoot → feed (preloaded) ---
-                // new AutoAlignCommand(turret, drivetrain).withTimeout(1.5),
-                // new ShootCommand(shooter, hood, ShootCommand.SpeedLevel.HIGH).withTimeout(1.0),
-                // Commands.runOnce(() -> index.setState(IndexState.ACTIVE)),
-                new WaitCommand(0.5),
-                // Commands.runOnce(() -> index.setState(IndexState.STOP)),
-
-                Commands.runOnce(() -> intake.setGoal(Intake.Goal.INTAKE)),
+                new WaitCommand(1.5),
+                Commands.runOnce(() -> intake.setGoal(Intake.Goal.INTAKE), intake),
                 AutoBuilder.followPath(path1),
-
-                // Commands.runOnce(() -> intake.setGoal(Intake.Goal.MIDDLE)),
-                AutoBuilder.followPath(PathPlannerPath.fromPathFile("BR_IntakeToShoot1")),
-
-                // --- Shoot1: turret lock → shoot → feed ---
-                // new AutoAlignCommand(turret, drivetrain).withTimeout(1.5),
-                // new ShootCommand(shooter, hood, ShootCommand.SpeedLevel.HIGH).withTimeout(1.0),
-                // Commands.runOnce(() -> index.setState(IndexState.ACTIVE)),
-                // new WaitCommand(0.5),
-                // Commands.runOnce(() -> index.setState(IndexState.STOP)),
-
+                AutoBuilder.followPath(PathPlannerPath.fromPathFile("BR/BR_IntakeToShoot1")),
+                Commands.runOnce(() -> {
+                    turret.setGoal(Turret.Goal.HUB);
+                    turret.setAngle(new Rotation2d(Math.toRadians(-71)));
+                }, turret),
+                new ShootCommand(shooter, hood, ShootCommand.SpeedLevel.MEDIUM).withTimeout(7.0),
+                new WaitCommand(2.0),
+                new TransitCommand(intake, index).withTimeout(5.0),
+                Commands.runOnce(() -> index.setIndexState(IndexState.STOP)),
                 Commands.runOnce(() -> intake.setGoal(Intake.Goal.INTAKE)),
-                AutoBuilder.followPath(PathPlannerPath.fromPathFile("BR_ShootToIntake2")),
-
-                // Commands.runOnce(() -> intake.setGoal(Intake.Goal.MIDDLE)),
-                AutoBuilder.followPath(PathPlannerPath.fromPathFile("BR_IntakeToShoot2"))
-
-                // --- Shoot2: turret lock → shoot → feed ---
-                // new AutoAlignCommand(turret, drivetrain).withTimeout(1.5),
-                // new ShootCommand(shooter, hood, ShootCommand.SpeedLevel.HIGH).withTimeout(1.0),
-                // Commands.runOnce(() -> index.setState(IndexState.ACTIVE)),
-                // new WaitCommand(0.5),
-                // Commands.runOnce(() -> index.setState(IndexState.STOP))
+                AutoBuilder.followPath(PathPlannerPath.fromPathFile("BR/BR_ShootToIntake2")),
+                AutoBuilder.followPath(PathPlannerPath.fromPathFile("BR/BR_IntakeToShoot2")),
+                new ShootCommand(shooter, hood, ShootCommand.SpeedLevel.MEDIUM).withTimeout(7.0),
+                new WaitCommand(2.0), 
+                new TransitCommand(intake, index).withTimeout(5.0)
             );
         } catch (Exception e) {
             DriverStation.reportError(
-                "Failed to load Right auto: " + e.getMessage(), e.getStackTrace());
+                "Failed to load Left auto: " + e.getMessage(), e.getStackTrace());
             addCommands(Commands.none());
         }
     }

@@ -9,7 +9,7 @@
       "prevControl": null,
       "nextControl": {
         "x": 6.985138484286723,
-        "y": 1.168379
+        "y": 1.1683790000000003
       },
       "isLocked": false,
       "linkedName": "BR_Shoot2"
@@ -21,7 +21,7 @@
       },
       "prevControl": {
         "x": 6.4651261807026845,
-        "y": 0.40203
+        "y": 0.40202999999999994
       },
       "nextControl": null,
       "isLocked": false,
@@ -51,10 +51,10 @@
   },
   "goalEndState": {
     "velocity": 0,
-    "rotation": 70.7
+    "rotation": 0.0
   },
   "reversed": false,
-  "folder": "Blue Right",
+  "folder": "BR",
   "idealStartingState": {
     "velocity": 0,
     "rotation": 89.569781
