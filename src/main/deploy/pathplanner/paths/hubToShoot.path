@@ -3,41 +3,32 @@
   "waypoints": [
     {
       "anchor": {
-        "x": 6.840655676196784,
-        "y": 3.561442
+        "x": 3.6,
+        "y": 4.0
       },
       "prevControl": null,
       "nextControl": {
-        "x": 6.985138484286723,
-        "y": 1.1683790000000003
+        "x": 4.022289268557069,
+        "y": 3.984960232601028
       },
       "isLocked": false,
-      "linkedName": "BR_Shoot2"
+      "linkedName": null
     },
     {
       "anchor": {
-        "x": 3.5656475105932204,
-        "y": 0.60898
+        "x": 2.6,
+        "y": 4.0
       },
       "prevControl": {
-        "x": 6.4651261807026845,
-        "y": 0.4020299999999999
+        "x": 2.3504836686009085,
+        "y": 4.015543499127889
       },
       "nextControl": null,
       "isLocked": false,
-      "linkedName": null
+      "linkedName": "shoot"
     }
   ],
-  "rotationTargets": [
-    {
-      "waypointRelativePos": 0.3797238372093021,
-      "rotationDegrees": 90.0
-    },
-    {
-      "waypointRelativePos": 0.7782604386892176,
-      "rotationDegrees": -0.0
-    }
-  ],
+  "rotationTargets": [],
   "constraintZones": [],
   "pointTowardsZones": [],
   "eventMarkers": [],
@@ -51,13 +42,13 @@
   },
   "goalEndState": {
     "velocity": 0,
-    "rotation": 0.0
+    "rotation": 180.0
   },
   "reversed": false,
   "folder": null,
   "idealStartingState": {
     "velocity": 0,
-    "rotation": 89.569781
+    "rotation": 180.0
   },
   "useDefaultConstraints": true
 }

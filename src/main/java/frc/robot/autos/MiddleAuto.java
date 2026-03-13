@@ -10,11 +10,13 @@ import com.pathplanner.lib.path.Waypoint;
 
 import edu.wpi.first.math.geometry.Pose2d;
 import edu.wpi.first.math.geometry.Rotation2d;
+import edu.wpi.first.wpilibj.DriverStation;
 import edu.wpi.first.wpilibj2.command.Commands;
 import edu.wpi.first.wpilibj2.command.SequentialCommandGroup;
 import edu.wpi.first.wpilibj2.command.WaitCommand;
 import frc.robot.commands.ShootCommand;
 import frc.robot.commands.ShootCommand.SpeedLevel;
+import frc.robot.commands.TransitCommand;
 import frc.robot.subsystems.drive.CommandSwerveDrivetrain;
 import frc.robot.subsystems.hood.Hood;
 import frc.robot.subsystems.index.Index;
@@ -26,36 +28,44 @@ import frc.robot.subsystems.turret.Turret;
 public class MiddleAuto extends SequentialCommandGroup {
     public MiddleAuto(Shooter shooter, Turret turret, Index index, Hood hood,
                       CommandSwerveDrivetrain drivetrain, Intake intake) {
-        Rotation2d robotHeading = Rotation2d.fromDegrees(-90);
-        Rotation2d travelDirection = Rotation2d.fromDegrees(180);
+        try{
+            Pose2d startPose = new Pose2d(3.6, 4.0, Rotation2d.fromDegrees(180));
 
-        List<Waypoint> waypoints = PathPlannerPath.waypointsFromPoses(
-            new Pose2d(2.0, 4.0, travelDirection),
-            new Pose2d(1.0, 4.0, travelDirection)
-        );
+            PathPlannerPath path = PathPlannerPath.fromPathFile("hubToShoot");
+            PathPlannerPath path1 = PathPlannerPath.fromPathFile("toDepot");
+            PathPlannerPath path2 = PathPlannerPath.fromPathFile("depotIntake");
+            PathPlannerPath path3 = PathPlannerPath.fromPathFile("toShoot");
 
-        PathPlannerPath path = new PathPlannerPath(
-            waypoints,
-            new PathConstraints(3.0, 3.0, Math.toRadians(540), Math.toRadians(720)),
-            null,
-            new GoalEndState(0.0, robotHeading)
-        );
-        path.preventFlipping = true;
+            path.preventFlipping = true;
+            path1.preventFlipping = true;
+            path2.preventFlipping = true;
+            path3.preventFlipping = true;
 
-        Pose2d startPose = new Pose2d(2.0, 4.0, robotHeading);
-
-        addCommands(
-            Commands.runOnce(() -> drivetrain.resetPose(startPose)),
-            AutoBuilder.followPath(path),
-            Commands.runOnce(() -> intake.setGoal(Intake.Goal.DEPLOY), intake),
-            Commands.runOnce(() -> index.setIndexState(IndexState.ACTIVE), index),
-            Commands.runOnce(() -> {
-                turret.setGoal(Turret.Goal.HUB);
-                turret.setAngle(new Rotation2d(Math.PI / 2));
-            }, turret),
-            new ShootCommand(shooter, hood, SpeedLevel.LOW).withTimeout(15.0),
-            new WaitCommand(2),
-            Commands.runOnce(() -> index.setIndexState(IndexState.STOP), index)
-        );
+            addCommands(
+                Commands.runOnce(() -> drivetrain.resetPose(startPose)),
+                Commands.runOnce(() -> {
+                    turret.setGoal(Turret.Goal.HUB);
+                    turret.setAngle(new Rotation2d(-Math.PI));
+                }, turret), 
+                AutoBuilder.followPath(path),
+                Commands.runOnce(() -> intake.setGoal(Intake.Goal.DEPLOY), intake),
+                new ShootCommand(shooter, hood, SpeedLevel.LOW).withTimeout(5.5)
+                .alongWith(
+                    new WaitCommand(2.5),
+                    new TransitCommand(intake, index).withTimeout(3.0)
+                ) , 
+                Commands.runOnce(() -> intake.setGoal(Intake.Goal.INTAKE), intake),
+                AutoBuilder.followPath(path1),
+                AutoBuilder.followPath(path2),
+                AutoBuilder.followPath(path3),
+                new ShootCommand(shooter, hood, ShootCommand.SpeedLevel.LOW).withTimeout(5.5)
+                    .alongWith(new WaitCommand(1.0).andThen(
+                    new TransitCommand(intake, index).withTimeout(4.5)))
+            );
+        } catch (Exception e) {
+            DriverStation.reportError(
+                "Failed to load Left auto: " + e.getMessage(), e.getStackTrace());
+            addCommands(Commands.none());
+        }
     }
 }

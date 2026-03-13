@@ -35,15 +35,16 @@ public class TransitCommand extends Command {
     public void execute() {
         double now = Timer.getFPGATimestamp();
 
-        if (now - lastTime >= 1.0) {
-            if (onMiddle) {
-                intake.setGoal(Goal.DEPLOY);
-                onMiddle = false;
-            }
-            else {
-                intake.setGoal(Goal.MIDDLE);
-                onMiddle = true;
-            }
+        if (now - lastTime >= 2.0 && onMiddle) {
+            intake.setGoal(Goal.DEPLOY);
+            onMiddle = false;
+
+            lastTime = now;
+        }
+
+        if (now - lastTime >= 1.0 && !onMiddle) {
+            intake.setGoal(Goal.MIDDLE);
+            onMiddle = true;
 
             lastTime = now;
         }

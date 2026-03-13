@@ -25,13 +25,13 @@ public class Intake extends SubsystemBase {
 
     private static final LoggedTunableNumber armIntakePos = new LoggedTunableNumber("Intake/Intake/LArmPos", 18.060547);
     private static final LoggedTunableNumber armRetractPos = new LoggedTunableNumber("Intake/Retract/LArmPos", -0.128906);
-    private static final LoggedTunableNumber armMiddlePos = new LoggedTunableNumber("Intake/Middle/LArmPos", 12.0);
+    private static final LoggedTunableNumber armMiddlePos = new LoggedTunableNumber("Intake/Middle/LArmPos", 11.0);
     private static final LoggedTunableNumber rollerIntakeVolts = new LoggedTunableNumber("Intake/Intake/RollerVolts", 12.0);
     private static final LoggedTunableNumber rollerOuttakeVolts = new LoggedTunableNumber("Intake/Outtake/RollerVolts", -8.0);
     private static final LoggedTunableNumber rollerStopVolts = new LoggedTunableNumber("Intake/Stop/RollerVolts", 0);
     private static final LoggedTunableNumber RarmIntakePos = new LoggedTunableNumber("Intake/Intake/RArmPos", -19.033691);
     private static final LoggedTunableNumber RarmRetractPos = new LoggedTunableNumber("Intake/Retract/RArmPos", 0.084473);
-    private static final LoggedTunableNumber RarmMiddlePos = new LoggedTunableNumber("Intake/Middle/RArmPos", -12.0);
+    private static final LoggedTunableNumber RarmMiddlePos = new LoggedTunableNumber("Intake/Middle/RArmPos", -11.0);
 
     public Intake() {
         intakeMotor = new TalonFX(IntakeConstants.intakeMotorCanId, new CANBus("canivore"));

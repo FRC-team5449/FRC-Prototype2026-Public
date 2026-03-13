@@ -27,34 +27,40 @@ public class LeftAuto extends SequentialCommandGroup {
     public LeftAuto(Shooter shooter, Turret turret, Index index, Hood hood,
                     CommandSwerveDrivetrain drivetrain, Intake intake) {
         try {
-            PathPlannerPath path1 = PathPlannerPath.fromPathFile("BL/BL_StartToIntake1");
+            PathPlannerPath path1 = PathPlannerPath.fromPathFile("BL_StartToIntake1");
+            PathPlannerPath path2 = PathPlannerPath.fromPathFile("BL_IntakeToShoot1");
+            PathPlannerPath path3 = PathPlannerPath.fromPathFile("BL_ShootToIntake2");
+            PathPlannerPath path4 = PathPlannerPath.fromPathFile("BL_IntakeToShoot2");
 
             path1.preventFlipping = true;
+            path2.preventFlipping = true;
+            path3.preventFlipping = true;
+            path4.preventFlipping = true;
 
             addCommands(
                 Commands.runOnce(() -> {
-                    Pose2d startPose = path1.getStartingHolonomicPose().get();
+                    Pose2d startPose = new Pose2d(3.5, 0.6, new Rotation2d(Math.toRadians(0)));
                     drivetrain.resetPose(startPose);
                 }),
-                Commands.run(() -> intake.setGoal(Intake.Goal.DEPLOY), intake),
-                new WaitCommand(1.5),
+                Commands.runOnce(() -> intake.setGoal(Intake.Goal.DEPLOY), intake),
+                new WaitCommand(1.0),
                 Commands.runOnce(() -> intake.setGoal(Intake.Goal.INTAKE), intake),
                 AutoBuilder.followPath(path1),
-                AutoBuilder.followPath(PathPlannerPath.fromPathFile("BL/BL_IntakeToShoot1")),
                 Commands.runOnce(() -> {
                     turret.setGoal(Turret.Goal.HUB);
                     turret.setAngle(new Rotation2d(Math.toRadians(-71)));
                 }, turret),
-                new ShootCommand(shooter, hood, ShootCommand.SpeedLevel.MEDIUM).withTimeout(7.0),
-                new WaitCommand(2.0),
-                new TransitCommand(intake, index).withTimeout(5.0),
-                Commands.runOnce(() -> index.setIndexState(IndexState.STOP)),
-                Commands.runOnce(() -> intake.setGoal(Intake.Goal.INTAKE)),
-                AutoBuilder.followPath(PathPlannerPath.fromPathFile("BL/BL_ShootToIntake2")),
-                AutoBuilder.followPath(PathPlannerPath.fromPathFile("BL/BL_IntakeToShoot2")),
-                new ShootCommand(shooter, hood, ShootCommand.SpeedLevel.MEDIUM).withTimeout(7.0),
-                new WaitCommand(2.0), 
-                new TransitCommand(intake, index).withTimeout(5.0)
+                AutoBuilder.followPath(path2),
+                new ShootCommand(shooter, hood, ShootCommand.SpeedLevel.MEDIUM).withTimeout(5.5)
+                .alongWith(new WaitCommand(1.0).andThen(
+                new TransitCommand(intake, index).withTimeout(4.5))),
+                Commands.runOnce(() -> index.setIndexState(IndexState.STOP), index),
+                Commands.runOnce(() -> intake.setGoal(Intake.Goal.INTAKE), intake),
+                AutoBuilder.followPath(path3),
+                AutoBuilder.followPath(path4),
+                new ShootCommand(shooter, hood, ShootCommand.SpeedLevel.MEDIUM).withTimeout(5.5)
+                .alongWith(new WaitCommand(1.0).andThen(
+                new TransitCommand(intake, index).withTimeout(4.5)))
             );
         } catch (Exception e) {
             DriverStation.reportError(

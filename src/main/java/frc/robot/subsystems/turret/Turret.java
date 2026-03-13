@@ -31,15 +31,6 @@ public class Turret extends SubsystemBase {
      */
     public void setAngle(Rotation2d angle) {
         double targetRad = normalizeAngle(angle.getRadians());
-        double currentRad = turretSetpoint * 2 * Math.PI;
-
-        if (Math.abs(targetRad - currentRad) > Math.PI) {
-            if (targetRad < currentRad) {
-                targetRad += 2 * Math.PI;
-            } else {
-                targetRad -= 2 * Math.PI;
-            }
-        }
 
         targetRad = MathUtil.clamp(
             targetRad,

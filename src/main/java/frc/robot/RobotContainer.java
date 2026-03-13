@@ -30,6 +30,7 @@ import frc.robot.subsystems.drive.TunerConstants;
 import frc.robot.subsystems.index.Index;
 import frc.robot.subsystems.index.Index.IndexState;
 import frc.robot.subsystems.intake.Intake;
+import frc.robot.subsystems.intake.Intake.Goal;
 import frc.robot.subsystems.shooter.Shooter;
 import frc.robot.subsystems.turret.Turret;
 import frc.robot.subsystems.vision.VisionSubsystem;
@@ -153,12 +154,12 @@ public class RobotContainer {
 
         copilot.pov(270).onTrue(Commands.runOnce(() -> {
             turret.setGoal(Turret.Goal.HUB);
-            turret.setAngle(new Rotation2d(Math.toRadians(71)));
+            turret.setAngle(new Rotation2d(-Math.toRadians(109)));
         }, turret));
 
         copilot.pov(90).onTrue(Commands.runOnce(() -> {
             turret.setGoal(Turret.Goal.HUB);
-            turret.setAngle(new Rotation2d(-Math.toRadians(71)));
+            turret.setAngle(new Rotation2d(Math.toRadians(109)));
         }, turret));
 
         copilot.pov(180).onTrue(Commands.runOnce(() -> {
@@ -183,14 +184,21 @@ public class RobotContainer {
 
         copilot.square().onTrue(Commands.runOnce(() -> {
             turret.setGoal(Turret.Goal.HUB);
-            turret.setAngle(new Rotation2d(-Math.toRadians(109)));
+            turret.setAngle(new Rotation2d(-Math.toRadians(138)));
         }, turret));
 
         copilot.circle().onTrue(Commands.runOnce(() -> {
             turret.setGoal(Turret.Goal.HUB);
-            turret.setAngle(new Rotation2d(Math.toRadians(109)));
+            turret.setAngle(new Rotation2d(Math.toRadians(138)));
         }, turret));
 
+        copilot.R2().onTrue(
+            Commands.runOnce(() -> intake.setGoal(Goal.OUTTAKE), intake)
+        );
+
+        copilot.R2().onFalse(
+            Commands.runOnce(() -> intake.setGoal(Goal.DEPLOY), intake)
+        );
     }
 
     private void configureAutos() {

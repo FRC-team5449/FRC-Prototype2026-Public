@@ -16,10 +16,10 @@ public class TurretConstants {
     public static TalonFXConfiguration config = new TalonFXConfiguration();
 
     public static TalonFXConfiguration getConfigs() {
-        config.Slot0.kP = 12.5;
+        config.Slot0.kP = 17.5;
         config.Slot0.kI = 0.0;
         config.Slot0.kD = 0.2;
-        config.Slot0.kS = 20;
+        config.Slot0.kS = 5;
         // config.Voltage.PeakForwardVoltage = 3;
         // config.Voltage.PeakReverseVoltage = -3;
         config.Feedback.SensorToMechanismRatio = gearRatio;
