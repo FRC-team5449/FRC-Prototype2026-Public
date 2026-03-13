@@ -171,6 +171,16 @@ public class RobotContainer {
 
 
 
+        copilot.L1().onTrue(Commands.runOnce(() -> {
+            turret.setGoal(Turret.Goal.HUB);
+            turret.setAngle(new Rotation2d(Math.toRadians(90)));
+        }, turret));
+
+        copilot.R1().onTrue(Commands.runOnce(() -> {
+            turret.setGoal(Turret.Goal.HUB);
+            turret.setAngle(new Rotation2d(-Math.toRadians(90)));
+        }, turret));
+
         copilot.square().onTrue(Commands.runOnce(() -> {
             turret.setGoal(Turret.Goal.HUB);
             turret.setAngle(new Rotation2d(-Math.toRadians(138)));
