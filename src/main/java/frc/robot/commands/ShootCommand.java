@@ -7,7 +7,7 @@ import frc.robot.subsystems.shooter.Shooter.Goal;
 
 public class ShootCommand extends Command {
     public enum SpeedLevel {
-        LOW(-40, Hood.Position.DOWN),
+        LOW(-50, Hood.Position.DOWN),
         MEDIUM(-60, Hood.Position.MIDDLE),
         HIGH(-80, Hood.Position.UP);
 

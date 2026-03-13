@@ -7,6 +7,7 @@ package frc.robot;
 import static edu.wpi.first.units.Units.*;
 
 import com.ctre.phoenix6.swerve.SwerveModule.DriveRequestType;
+import com.pathplanner.lib.commands.PathPlannerAuto;
 import com.ctre.phoenix6.swerve.SwerveRequest;
 
 import edu.wpi.first.math.geometry.Rotation2d;
@@ -137,22 +138,8 @@ public class RobotContainer {
         joystick.L2().and(joystick.R1()).whileTrue(new TransitCommand(intake, index));
         joystick.L2().and(joystick.R2()).whileTrue(new TransitCommand(intake, index));
 
-        joystick.pov(0).onTrue(Commands.run(() -> hood.setPosition(Position.UP), hood));
 
-        joystick.pov(180).onTrue(Commands.run(() -> hood.setPosition(Position.MIDDLE), hood));
-
-        joystick.square().onTrue(
-            Commands.sequence(
-                Commands.run(() -> turret.setGoal(Turret.Goal.HUB), turret),
-                Commands.run(() -> turret.setAngle(new Rotation2d(Math.PI / 2)))
-            )
-        );
-
-        joystick.square().onFalse(
-
-                Commands.run(() -> turret.setGoal(Turret.Goal.STOP), turret)
-      
-        );
+        
         
         // joystick.triangle().onTrue(climber.toggleCommand());
 
@@ -166,12 +153,12 @@ public class RobotContainer {
 
         copilot.pov(270).onTrue(Commands.runOnce(() -> {
             turret.setGoal(Turret.Goal.HUB);
-            turret.setAngle(new Rotation2d(Math.PI / 2));
+            turret.setAngle(new Rotation2d(Math.toRadians(71)));
         }, turret));
 
         copilot.pov(90).onTrue(Commands.runOnce(() -> {
             turret.setGoal(Turret.Goal.HUB);
-            turret.setAngle(new Rotation2d(-Math.PI / 2));
+            turret.setAngle(new Rotation2d(-Math.toRadians(71)));
         }, turret));
 
         copilot.pov(180).onTrue(Commands.runOnce(() -> {
@@ -179,20 +166,31 @@ public class RobotContainer {
             turret.setAngle(new Rotation2d(Math.PI));
         }, turret));
 
-        // Hood preset positions
-        copilot.triangle().onTrue(Commands.runOnce(() -> hood.setPosition(Position.UP), hood));
-        copilot.square().onTrue(Commands.runOnce(() -> hood.setPosition(Position.MIDDLE), hood));
-        copilot.cross().onTrue(Commands.runOnce(() -> hood.setPosition(Position.DOWN), hood));
+
+
+
+
+
+        copilot.square().onTrue(Commands.runOnce(() -> {
+            turret.setGoal(Turret.Goal.HUB);
+            turret.setAngle(new Rotation2d(-Math.toRadians(138)));
+        }, turret));
+
+        copilot.circle().onTrue(Commands.runOnce(() -> {
+            turret.setGoal(Turret.Goal.HUB);
+            turret.setAngle(new Rotation2d(Math.toRadians(138)));
+        }, turret));
+
     }
 
     private void configureAutos() {
         autoChooser.setDefaultOption("Left", new LeftAuto(shooter, turret, index, hood, drivetrain, intake));
         autoChooser.addOption("Right", new RightAuto(shooter, turret, index, hood, drivetrain, intake));
         autoChooser.addOption("Middle", new MiddleAuto(shooter, turret, index, hood, drivetrain, intake));
-        SmartDashboard.putData("Auto Chooser", autoChooser);
+        SmartDashboard.putData("Auto Chooser", new MiddleAuto(shooter, turret, index, hood, drivetrain, intake));
     }
 
     public Command getAutonomousCommand() {
-        return autoChooser.getSelected();
+        return new MiddleAuto(shooter, turret, index, hood, drivetrain, intake);
     }
 }
