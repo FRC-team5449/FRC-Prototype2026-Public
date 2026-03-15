@@ -39,7 +39,7 @@ public class RightAuto extends SequentialCommandGroup {
 
             addCommands(
                 Commands.runOnce(() -> {
-                    Pose2d startPose = new Pose2d(3.5, 7.4, new Rotation2d(Math.toRadians(0)));
+                    Pose2d startPose = new Pose2d(3.5, 0.6, new Rotation2d(Math.toRadians(0)));
                     drivetrain.resetPose(startPose);
                 }),
                 Commands.runOnce(() -> intake.setGoal(Intake.Goal.DEPLOY), intake),
@@ -48,19 +48,19 @@ public class RightAuto extends SequentialCommandGroup {
                 AutoBuilder.followPath(path1),
                 Commands.runOnce(() -> {
                     turret.setGoal(Turret.Goal.HUB);
-                    turret.setAngle(new Rotation2d(Math.toRadians(71)));
+                    turret.setAngle(new Rotation2d(Math.toRadians(71.5)));
                 }, turret),
                 AutoBuilder.followPath(path2),
                 new ShootCommand(shooter, hood, ShootCommand.SpeedLevel.MEDIUM).withTimeout(5.5)
-                .alongWith(new WaitCommand(2.0).andThen(
-                new TransitCommand(intake, index).withTimeout(3.5))),
+                .alongWith(new WaitCommand(1.0).andThen(
+                new TransitCommand(intake, index).withTimeout(4.5))),
                 Commands.runOnce(() -> index.setIndexState(IndexState.STOP), index),
                 Commands.runOnce(() -> intake.setGoal(Intake.Goal.INTAKE), intake),
                 AutoBuilder.followPath(path3),
                 AutoBuilder.followPath(path4),
                 new ShootCommand(shooter, hood, ShootCommand.SpeedLevel.MEDIUM).withTimeout(5.5)
-                .alongWith(new WaitCommand(2.0).andThen(
-                new TransitCommand(intake, index).withTimeout(3.5)))
+                .alongWith(new WaitCommand(1.0).andThen(
+                new TransitCommand(intake, index).withTimeout(4.5)))
             );
         } catch (Exception e) {
             DriverStation.reportError(

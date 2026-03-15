@@ -121,14 +121,20 @@ public class RobotContainer {
         drivetrain.registerTelemetry(logger::telemeterize);
 
         joystick.L2().onTrue(
-            Commands.run(() -> intake.setGoal(Intake.Goal.INTAKE), intake)
+
+                Commands.runOnce(() -> intake.setGoal(Intake.Goal.INTAKE), intake)
+            
+            
         );
         joystick.L2().onFalse(
-            Commands.run(() -> intake.setGoal(Intake.Goal.DEPLOY), intake)
+            Commands.parallel(
+                Commands.runOnce(() -> intake.setGoal(Intake.Goal.DEPLOY), intake),
+                Commands.runOnce(() -> index.setIndexState(IndexState.STOP), index)
+            )
         );
 
         joystick.cross().onTrue(
-            Commands.run(() -> intake.setGoal(Intake.Goal.RETRACT), intake)
+            Commands.runOnce(() -> intake.setGoal(Intake.Goal.RETRACT), intake)
         );
 
         joystick.L1().whileTrue(new ShootCommand(shooter, hood, SpeedLevel.LOW));
@@ -154,12 +160,12 @@ public class RobotContainer {
 
         copilot.pov(270).onTrue(Commands.runOnce(() -> {
             turret.setGoal(Turret.Goal.HUB);
-            turret.setAngle(new Rotation2d(-Math.toRadians(109)));
+            turret.setAngle(new Rotation2d(-Math.toRadians(108.5)));
         }, turret));
 
         copilot.pov(90).onTrue(Commands.runOnce(() -> {
             turret.setGoal(Turret.Goal.HUB);
-            turret.setAngle(new Rotation2d(Math.toRadians(109)));
+            turret.setAngle(new Rotation2d(Math.toRadians(108.5)));
         }, turret));
 
         copilot.pov(180).onTrue(Commands.runOnce(() -> {
@@ -192,11 +198,11 @@ public class RobotContainer {
             turret.setAngle(new Rotation2d(Math.toRadians(138)));
         }, turret));
 
-        copilot.R2().onTrue(
+        joystick.pov(180).onTrue(
             Commands.runOnce(() -> intake.setGoal(Goal.OUTTAKE), intake)
         );
 
-        copilot.R2().onFalse(
+        joystick.pov(180).onFalse(
             Commands.runOnce(() -> intake.setGoal(Goal.DEPLOY), intake)
         );
     }
@@ -209,6 +215,6 @@ public class RobotContainer {
     }
 
     public Command getAutonomousCommand() {
-        return new MiddleAuto(shooter, turret, index, hood, drivetrain, intake);
+        return new RightAuto(shooter, turret, index, hood, drivetrain, intake);
     }
 }

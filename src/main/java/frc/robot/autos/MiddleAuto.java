@@ -51,8 +51,8 @@ public class MiddleAuto extends SequentialCommandGroup {
                 Commands.runOnce(() -> intake.setGoal(Intake.Goal.DEPLOY), intake),
                 new ShootCommand(shooter, hood, SpeedLevel.LOW).withTimeout(5.5)
                 .alongWith(
-                    new WaitCommand(2.5),
-                    new TransitCommand(intake, index).withTimeout(3.0)
+                    new WaitCommand(1.5),
+                    new TransitCommand(intake, index).withTimeout(4.0)
                 ) , 
                 Commands.runOnce(() -> intake.setGoal(Intake.Goal.INTAKE), intake),
                 AutoBuilder.followPath(path1),

@@ -19,6 +19,7 @@ public class IntakeConstants {
         config.Slot0.kP = 0.05;
         config.Slot0.kI = 0.0;
         config.Slot0.kD = 0.0001;
+        config.Slot0.kS = 0.5;
         config.Slot0.kV = 0.12;  // feedforward, optional
         config.MotionMagic.MotionMagicCruiseVelocity = 80;   // rps
         config.MotionMagic.MotionMagicAcceleration = 160;     // rps/s 

@@ -39,7 +39,7 @@ public class LeftAuto extends SequentialCommandGroup {
 
             addCommands(
                 Commands.runOnce(() -> {
-                    Pose2d startPose = new Pose2d(3.5, 0.6, new Rotation2d(Math.toRadians(0)));
+                    Pose2d startPose = new Pose2d(3.5, 7.4, new Rotation2d(Math.toRadians(0)));
                     drivetrain.resetPose(startPose);
                 }),
                 Commands.runOnce(() -> intake.setGoal(Intake.Goal.DEPLOY), intake),
@@ -48,7 +48,7 @@ public class LeftAuto extends SequentialCommandGroup {
                 AutoBuilder.followPath(path1),
                 Commands.runOnce(() -> {
                     turret.setGoal(Turret.Goal.HUB);
-                    turret.setAngle(new Rotation2d(Math.toRadians(-71)));
+                    turret.setAngle(new Rotation2d(Math.toRadians(-71.5)));
                 }, turret),
                 AutoBuilder.followPath(path2),
                 new ShootCommand(shooter, hood, ShootCommand.SpeedLevel.MEDIUM).withTimeout(5.5)

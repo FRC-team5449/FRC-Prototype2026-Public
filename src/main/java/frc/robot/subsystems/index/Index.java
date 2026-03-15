@@ -65,7 +65,7 @@ public class Index extends SubsystemBase {
         } else {
             indexState = requestedState;
 
-            if (indexState == IndexState.ACTIVE
+            if ((indexState == IndexState.ACTIVE)
                     && statorCurrent > IndexConstants.stallCurrentThreshold) {
                 isStalled = true;
                 stallStartTime = now;
