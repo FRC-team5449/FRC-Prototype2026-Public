@@ -15,7 +15,8 @@ public class Index extends SubsystemBase {
     public enum IndexState {
         ACTIVE(0.8),
         STOP(0.0),
-        REVERSE(-0.3);
+        REVERSE(-0.3),
+        SLOW(0.2);
 
         public double power;
 
@@ -29,6 +30,8 @@ public class Index extends SubsystemBase {
 
     private double stallStartTime = -1;
     private boolean isStalled = false;
+    private int stallCounter = 0;
+    private double stallRecoveryTime = -1;
 
     public Index() {
         indexMotor = new TalonFX(IndexConstants.indexMotorCanId, "rio");
@@ -58,6 +61,7 @@ public class Index extends SubsystemBase {
             if (now - stallStartTime >= IndexConstants.stallCooldownTime) {
                 isStalled = false;
                 stallStartTime = -1;
+                stallRecoveryTime = now;
                 indexState = requestedState;
             } else {
                 indexState = IndexState.REVERSE;
@@ -65,11 +69,21 @@ public class Index extends SubsystemBase {
         } else {
             indexState = requestedState;
 
-            if ((indexState == IndexState.ACTIVE)
+            boolean inGracePeriod = stallRecoveryTime > 0
+                    && (now - stallRecoveryTime < IndexConstants.stallRecoveryGracePeriod);
+
+            if ((indexState == IndexState.ACTIVE || indexState == IndexState.SLOW)
+                    && !inGracePeriod
                     && statorCurrent > IndexConstants.stallCurrentThreshold) {
-                isStalled = true;
-                stallStartTime = now;
-                indexState = IndexState.REVERSE;
+                stallCounter++;
+                if (stallCounter >= IndexConstants.stallCyclesRequired) {
+                    isStalled = true;
+                    stallStartTime = now;
+                    stallCounter = 0;
+                    indexState = IndexState.REVERSE;
+                }
+            } else {
+                stallCounter = 0;
             }
         }
 

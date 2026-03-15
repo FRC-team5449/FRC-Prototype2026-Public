@@ -11,6 +11,7 @@ import com.pathplanner.lib.commands.PathPlannerAuto;
 import com.ctre.phoenix6.swerve.SwerveRequest;
 
 import edu.wpi.first.math.geometry.Rotation2d;
+import edu.wpi.first.wpilibj.PS5Controller;
 import edu.wpi.first.wpilibj.smartdashboard.SendableChooser;
 import edu.wpi.first.wpilibj.smartdashboard.SmartDashboard;
 import edu.wpi.first.wpilibj2.command.Command;
@@ -120,13 +121,22 @@ public class RobotContainer {
 
         drivetrain.registerTelemetry(logger::telemeterize);
 
-        joystick.L2().onTrue(
-
-                Commands.runOnce(() -> intake.setGoal(Intake.Goal.INTAKE), intake)
-            
-            
+        joystick.axisGreaterThan(PS5Controller.Axis.kL2.value, 0.8)
+        .and(joystick.L1().negate())
+        .and(joystick.R1().negate())
+        .and(joystick.R2().negate())
+        .onTrue(
+            Commands.parallel(
+                Commands.runOnce(() -> intake.setGoal(Intake.Goal.INTAKE), intake),
+                Commands.runOnce(() -> index.setIndexState(IndexState.SLOW), index)
+            )
         );
-        joystick.L2().onFalse(
+
+        joystick.axisGreaterThan(PS5Controller.Axis.kL2.value, 0.2)
+        .and(joystick.L1().negate())
+        .and(joystick.R1().negate())
+        .and(joystick.R2().negate())
+        .onFalse(
             Commands.parallel(
                 Commands.runOnce(() -> intake.setGoal(Intake.Goal.DEPLOY), intake),
                 Commands.runOnce(() -> index.setIndexState(IndexState.STOP), index)
@@ -205,6 +215,14 @@ public class RobotContainer {
         joystick.pov(180).onFalse(
             Commands.runOnce(() -> intake.setGoal(Goal.DEPLOY), intake)
         );
+
+        copilot.R2().onTrue(
+            Commands.runOnce(() -> intake.setGoal(Goal.OUTTAKE), intake)
+        );
+
+        copilot.R2().onFalse(
+            Commands.runOnce(() -> intake.setGoal(Goal.DEPLOY), intake)
+        );
     }
 
     private void configureAutos() {
@@ -215,6 +233,6 @@ public class RobotContainer {
     }
 
     public Command getAutonomousCommand() {
-        return new RightAuto(shooter, turret, index, hood, drivetrain, intake);
+        return new MiddleAuto(shooter, turret, index, hood, drivetrain, intake);
     }
 }

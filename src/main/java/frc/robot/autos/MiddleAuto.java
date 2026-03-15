@@ -35,32 +35,34 @@ public class MiddleAuto extends SequentialCommandGroup {
             PathPlannerPath path1 = PathPlannerPath.fromPathFile("toDepot");
             PathPlannerPath path2 = PathPlannerPath.fromPathFile("depotIntake");
             PathPlannerPath path3 = PathPlannerPath.fromPathFile("toShoot");
+            PathPlannerPath path4 = PathPlannerPath.fromPathFile("toOutside");
 
             path.preventFlipping = true;
             path1.preventFlipping = true;
             path2.preventFlipping = true;
             path3.preventFlipping = true;
+            path4.preventFlipping = true;
 
             addCommands(
-                Commands.runOnce(() -> drivetrain.resetPose(startPose)),
-                Commands.runOnce(() -> {
-                    turret.setGoal(Turret.Goal.HUB);
-                    turret.setAngle(new Rotation2d(-Math.PI));
-                }, turret), 
-                AutoBuilder.followPath(path),
-                Commands.runOnce(() -> intake.setGoal(Intake.Goal.DEPLOY), intake),
-                new ShootCommand(shooter, hood, SpeedLevel.LOW).withTimeout(5.5)
-                .alongWith(
-                    new WaitCommand(1.5),
-                    new TransitCommand(intake, index).withTimeout(4.0)
-                ) , 
-                Commands.runOnce(() -> intake.setGoal(Intake.Goal.INTAKE), intake),
-                AutoBuilder.followPath(path1),
-                AutoBuilder.followPath(path2),
-                AutoBuilder.followPath(path3),
-                new ShootCommand(shooter, hood, ShootCommand.SpeedLevel.LOW).withTimeout(5.5)
-                    .alongWith(new WaitCommand(1.0).andThen(
-                    new TransitCommand(intake, index).withTimeout(4.5)))
+                Commands.parallel(
+                    new ShootCommand(shooter, hood, ShootCommand.SpeedLevel.LOW).withTimeout(19.0), 
+                    Commands.sequence(
+                        Commands.runOnce(() -> drivetrain.resetPose(startPose)),
+                        Commands.runOnce(() -> {
+                            turret.setGoal(Turret.Goal.HUB);
+                            turret.setAngle(new Rotation2d(-Math.PI));
+                        }, turret), 
+                        AutoBuilder.followPath(path),
+                        Commands.runOnce(() -> intake.setGoal(Intake.Goal.DEPLOY), intake),
+                        new TransitCommand(intake, index).withTimeout(4.0),
+                        Commands.runOnce(() -> intake.setGoal(Intake.Goal.INTAKE), intake),
+                        AutoBuilder.followPath(path1),
+                        AutoBuilder.followPath(path2),
+                        AutoBuilder.followPath(path3),
+                        new TransitCommand(intake, index).withTimeout(4.5),
+                        AutoBuilder.followPath(path4)
+                    )
+                )
             );
         } catch (Exception e) {
             DriverStation.reportError(
